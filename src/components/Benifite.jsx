@@ -4,7 +4,7 @@ import { FaThumbsUp, FaRocket, FaShieldAlt } from 'react-icons/fa';
 function BenefitsSection() {
   return (
     <>
-      <h4>Benifite of Shortener Urls</h4>
+      <h4 className='m-[158px]'>Benifite of Shortener Urls</h4>
     <div className="flex justify-evenly w-[100%] items-center py-8">
       
       <Card
