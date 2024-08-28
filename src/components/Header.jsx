@@ -1,7 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Navigate } from 'react-router-dom';
-
 function Header() {
   return (
     <header className="flex justify-between items-center h-[83px] bg-blue-600 p-4 sm:p-10">
