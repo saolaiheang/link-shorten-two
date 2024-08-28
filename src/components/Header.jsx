@@ -14,10 +14,10 @@ function Header() {
       </div>
       </Link>
       <nav className="flex space-x-4 sm:space-x-8">
-        <Link to="/login" className="text-white font-semibold text-lg sm:text-2xl hover:text-red-200">
+        <Link to="/login" className="text-white p-4  text-lg sm:text-2xl hover:text-red-200">
           Login
         </Link>
-        <Link to="/signup" className="text-white font-semibold text-lg sm:text-2xl hover:text-red-200">
+        <Link to="/signup" className="text-white p-4  text-lg sm:text-2xl hover:text-red-200">
           Sign Up
         </Link>
       </nav>
