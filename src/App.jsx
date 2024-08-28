@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Routes, Route } from 'react-router-dom';
 import LandingPage from './page/Landingpage';
 import LoginPage from './page/Loginpage';
+import SignUp from './page/SignUp';
 
 import './App.css'
 
@@ -11,7 +12,7 @@ function App() {
       <Routes>
       <Route path="/" element={<LandingPage />} />
       <Route path="/login" element={<LoginPage />} />
-      {/* Add more routes here as needed */}
+      <Route path="/signup" element={<SignUp />} />
     </Routes>
     </>
   )
