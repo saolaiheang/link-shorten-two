@@ -50,7 +50,7 @@ function UrlShortener() {
   const [longUrl, setLongUrl] = useState('');
   const [shortUrl, setShortUrl] = useState('');
   const [error, setError] = useState('');
-  const [loading, setLoading] = useState(false);
+  // const [loading, setLoading] = useState(false);
 
   const handleShorten = async () => {
     if (!longUrl || !longUrl.startsWith('http')) {
