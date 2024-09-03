@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "../components/Header";
+import SuccessMessage from "../components/Successalert";
 
 function SignUp() {
   const [formData, setFormData] = useState({
@@ -14,6 +15,8 @@ function SignUp() {
     email: "",
     password: "",
   });
+
+  const [showSuccess, setShowSuccess] = useState(false); // State to manage success message visibility
 
   const navigate = useNavigate();
 
@@ -59,30 +62,33 @@ function SignUp() {
 
     if (validateForm()) {
       try {
-        const response = await fetch("https://link-shortener-express.vercel.app/auth/signup", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(formData),
-        });
+        const response = await fetch(
+          "https://link-shortener-express.vercel.app/auth/signup",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(formData),
+          }
+        );
 
         const data = await response.json();
 
         if (response.ok) {
           console.log("Form submitted successfully", data);
-          // Navigate to the dashboard page after successful signup
-          navigate("/dashboard");
+          setShowSuccess(true); // Show success message
+          setTimeout(() => {
+            setShowSuccess(false);
+            navigate("/dashboard");
+          }, 2000); // Hide message after 2 seconds and navigate
         } else {
           console.log("Error:", data.message);
-          // Handle API error response
         }
       } catch (error) {
         console.error("Error:", error);
-        // Handle network or other errors
       }
     } else {
-      // Clear the form if validation fails
       setFormData({
         username: "",
         email: "",
@@ -95,7 +101,9 @@ function SignUp() {
     <div>
       <Header />
       <div>
-        <h1 className="text-4xl sm:text-5xl md:text-6xl mt-10 sm:mt-12 md:mt-14">Create Account</h1>
+        <h1 className="text-4xl sm:text-5xl md:text-6xl mt-10 sm:mt-12 md:mt-14">
+          Create Account
+        </h1>
       </div>
       <div className="w-11/12 sm:w-4/6 md:w-3/6 mx-auto mt-10 sm:mt-12 md:mt-14">
         <form onSubmit={handleSubmit}>
@@ -150,6 +158,7 @@ function SignUp() {
             Sign up
           </button>
         </form>
+        {showSuccess && <SuccessMessage message="Account created successfully!" />} {/* Render success message */}
       </div>
     </div>
   );
