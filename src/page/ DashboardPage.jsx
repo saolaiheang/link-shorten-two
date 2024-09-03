@@ -1,8 +1,8 @@
+import { useState } from 'react';
+import Sidebar from '../components/Sidebar';
 function  DashboardPage(){
     return(
-        <h1 className="text-7xl">
-            hi dashboard page
-        </h1>
+       <Sidebar></Sidebar>
     )
 }
 export default DashboardPage;
