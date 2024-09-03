@@ -2,6 +2,7 @@ import React from 'react';
 import Card from './Card';
 import { FaThumbsUp, FaRocket, FaShieldAlt } from 'react-icons/fa';
 
+
 function BenefitsSection() {
   return (
     <>
@@ -22,6 +23,7 @@ function BenefitsSection() {
           title="Secure Links"
           description="We ensure your links are safe and secure with advanced encryption and protection against spam and phishing."
         />
+       
       </div>
     </>
   );
