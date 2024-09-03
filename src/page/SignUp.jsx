@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "../components/Header";
+import SuccessMessage from "../components/Successalert";
 
 function SignUp() {
   const [formData, setFormData] = useState({
@@ -14,6 +15,8 @@ function SignUp() {
     email: "",
     password: "",
   });
+
+  const [showSuccess, setShowSuccess] = useState(false); // State to manage success message visibility
 
   const navigate = useNavigate();
 
@@ -74,7 +77,11 @@ function SignUp() {
 
         if (response.ok) {
           console.log("Form submitted successfully", data);
-          navigate("/dashboard");
+          setShowSuccess(true); // Show success message
+          setTimeout(() => {
+            setShowSuccess(false);
+            navigate("/dashboard");
+          }, 2000); // Hide message after 2 seconds and navigate
         } else {
           console.log("Error:", data.message);
         }
@@ -151,6 +158,7 @@ function SignUp() {
             Sign up
           </button>
         </form>
+        {showSuccess && <SuccessMessage message="Account created successfully!" />} {/* Render success message */}
       </div>
     </div>
   );

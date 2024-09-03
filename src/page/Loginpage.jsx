@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import Header from '../components/Header';
 import { useNavigate } from "react-router-dom";
+import SuccessMessage from '../components/Successalert';
 
 function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [showSuccess, setShowSuccess] = useState(false); // State to manage success message visibility
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
@@ -25,8 +27,13 @@ function LoginPage() {
           password,
         }),
       });
+
       if (response.status === 200) {
-        navigate('/dashboard'); 
+        setShowSuccess(true); // Show success message
+        setTimeout(() => {
+          setShowSuccess(false);
+          navigate('/dashboard'); 
+        }, 2000); // Hide message after 2 seconds and navigate
       } else {
         const data = await response.json();
         setError(data.message || 'Login failed. Please check your credentials.');
@@ -74,6 +81,7 @@ function LoginPage() {
                 <p>{error}</p>
               </div>
             )}
+            {showSuccess && <SuccessMessage message="Login successful!" />} {/* Render success message */}
             <div className="text-center sm:text-left">
               <button
                 type="submit"
