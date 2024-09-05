@@ -6,7 +6,21 @@ Button.button-blue{
     background-color: rgb(0, 60, 255);
   }
 
-  Button.button-blues{
+ Button.button-blues{
     background-color: rgb(0, 60, 255);
     border-radius: 10px;
+  }
+Button.button-short{
+    background-color: rgb(0, 60, 255);
+    border-radius: 10px;
+  }
+  @media only screen and (max-width: 600px)  {
+    Button.button-short{
+      background-color: rgb(0, 60, 255);
+      border-radius: 10px;
+      padding:7px;
+    
+    
+    }
+    
   }

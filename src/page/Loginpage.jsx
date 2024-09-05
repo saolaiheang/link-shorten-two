@@ -32,7 +32,7 @@ function LoginPage() {
         setShowSuccess(true); // Show success message
         setTimeout(() => {
           setShowSuccess(false);
-          navigate('/dashboard'); 
+          navigate('/shortenurls'); 
         }, 2000); // Hide message after 2 seconds and navigate
       } else {
         const data = await response.json();

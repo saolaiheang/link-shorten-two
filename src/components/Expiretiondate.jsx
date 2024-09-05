@@ -1,7 +1,5 @@
-// ExpirationDate.js
+
 import React, { useState, useEffect } from 'react';
-
-
 async function fetchExpirationDate(shortUrl) {
     console.log(shortUrl);
     const apiUrl = `${import.meta.env.VITE_API_URL}/shorten/${shortUrl}/expires`;
@@ -25,7 +23,7 @@ async function fetchExpirationDate(shortUrl) {
 function formatDateToDDMMYYYY(dateString) {
     const date = new Date(dateString);
     const day = String(date.getUTCDate()).padStart(2, '0');
-    const month = String(date.getUTCMonth() + 1).padStart(2, '0'); // Months are 0-indexed
+    const month = String(date.getUTCMonth() + 1).padStart(2, '0');
     const year = date.getUTCFullYear();
     return `${day}/${month}/${year}`;
 }
@@ -46,7 +44,7 @@ function ExpirationDate({ shortUrl }) {
     return (
         <>
             {expirationDate && (
-                <p className="text-right text-sm text-gray-500  mt-2 max-sm:mt-3 max-sm:text-xs">
+                <p className="text-right text-sm text-gray-500  mt-2 max-sm:mt-5 max-sm:text-[9px]">
                     Expires on: {expirationDate}
                 </p>
             )}

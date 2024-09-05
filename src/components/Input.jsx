@@ -82,7 +82,7 @@ function UrlShortener() {
       navigator.clipboard.writeText(text)
         .then(() => {
           setShowSuccessMessage(true);
-          setTimeout(() => setShowSuccessMessage(false), 5000); 
+          setTimeout(() => setShowSuccessMessage(false), 5000);
         })
         .catch((error) => {
           console.error('Failed to copy:', error);
@@ -137,7 +137,7 @@ function UrlShortener() {
               </button>
 
               <button
-                className="px-3 py-2 bg-white border border-gray-300 flex justify-center items-center rounded hover:bg-gray-100"
+                className="px-0.5 py-2 bg-white border border-gray-300 flex justify-center items-center rounded hover:bg-gray-100"
                 onClick={() => handleEdit(setLongUrl, setShortUrl)}
               >
                 <FaEdit className="fill-black" />

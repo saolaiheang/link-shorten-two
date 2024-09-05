@@ -1,8 +1,6 @@
 import React from 'react';
 import Card from './Card';
 import { FaThumbsUp, FaRocket, FaShieldAlt } from 'react-icons/fa';
-
-
 function BenefitsSection() {
   return (
     <>
