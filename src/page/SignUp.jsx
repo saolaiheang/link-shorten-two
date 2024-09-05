@@ -2,28 +2,22 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "../components/Header";
 import SuccessMessage from "../components/Successalert";
-
 function SignUp() {
   const [formData, setFormData] = useState({
     username: "",
     email: "",
     password: "",
   });
-
   const [errors, setErrors] = useState({
     username: "",
     email: "",
     password: "",
   });
-
   const [showSuccess, setShowSuccess] = useState(false); // State to manage success message visibility
-
   const navigate = useNavigate();
-
   const validateForm = () => {
     let formIsValid = true;
     let newErrors = { username: "", email: "", password: "" };
-
     if (!formData.username) {
       formIsValid = false;
       newErrors.username = "Username is required.";
@@ -36,7 +30,6 @@ function SignUp() {
       formIsValid = false;
       newErrors.email = "Email address is invalid.";
     }
-
     if (!formData.password) {
       formIsValid = false;
       newErrors.password = "Password is required.";
@@ -44,11 +37,9 @@ function SignUp() {
       formIsValid = false;
       newErrors.password = "Password must be at least 6 characters.";
     }
-
     setErrors(newErrors);
     return formIsValid;
   };
-
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({
@@ -56,7 +47,6 @@ function SignUp() {
       [name]: value,
     });
   };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -80,7 +70,7 @@ function SignUp() {
           setShowSuccess(true); // Show success message
           setTimeout(() => {
             setShowSuccess(false);
-            navigate("/dashboard");
+            navigate("/shortenurls");
           }, 2000); // Hide message after 2 seconds and navigate
         } else {
           console.log("Error:", data.message);

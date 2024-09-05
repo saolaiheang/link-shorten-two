@@ -5,7 +5,7 @@ function ResponsiveQRCode({ value }) {
   const [qrCodeSize, setQrCodeSize] = useState(getQrCodeSize());
 
   useEffect(() => {
-    // Update QR code size on window resize
+
     const handleResize = () => setQrCodeSize(getQrCodeSize());
 
     window.addEventListener('resize', handleResize);
@@ -15,8 +15,8 @@ function ResponsiveQRCode({ value }) {
   function getQrCodeSize() {
     const screenWidth = window.innerWidth;
     if (screenWidth < 640) return 100;
-    if (screenWidth < 768) return 80; 
-    return 100; 
+    if (screenWidth < 768) return 80;
+    return 100;
   }
 
   return (
