@@ -44,7 +44,7 @@ function ExpirationDate({ shortUrl }) {
     return (
         <>
             {expirationDate && (
-                <p className="text-right text-sm text-gray-500  mt-2 max-sm:mt-5 max-sm:text-[9px]">
+                <p className="text-right text-sm text-gray-500  mt-4 max-sm:mt-5 max-sm:text-[9px]">
                     Expires on: {expirationDate}
                 </p>
             )}

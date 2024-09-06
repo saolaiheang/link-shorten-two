@@ -2,19 +2,21 @@
 import { useState } from "react";
 import { FaLink } from 'react-icons/fa';
 import { MdDashboard } from 'react-icons/md';
+import { FaUserCircle } from 'react-icons/fa';
 
 const Sidebar = () => {
   const [open, setOpen] = useState(true);
   const Menus = [
     { title: "Shortens Links", icon: <FaLink size={35} />,gap: false },
     { title: "Dash Boards", icon: <MdDashboard size={35}/>, gap: true },
+    { title: "Profile Acc", icon: <FaUserCircle size={35}/>, gap: true },
   ];
 
   return (
     <div className="flex">
       <div
         className={`${
-          open ? "w-72 px-10 h-auto" : "w-20 p-2 h-auto"
+          open ? "w-72 px-10  h-auto" : "w-20 p-2 h-auto"
         } bg-slate-200 h-screen  pt-8 relative duration-300`}
       >
         <img

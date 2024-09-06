@@ -45,7 +45,7 @@ function LoginPage() {
 
   return (
     <>
-      <Header />
+      <Header showLoginSignup={true}/>
       <div className="flex justify-center mt-10 sm:mt-[100px]">
         <div className="w-11/12 sm:w-4/6 md:w-3/6 mx-auto mt-10 sm:mt-12 md:mt-14">
           <form onSubmit={handleLogin}>
