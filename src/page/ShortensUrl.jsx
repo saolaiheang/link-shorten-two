@@ -91,7 +91,7 @@ function ShortenUrl() {
         if (navigator && navigator.clipboard) {
             navigator.clipboard.writeText(text)
                 .then(() => {
-                    setShowSuccessMessage(true);
+                   setShowSuccessMessage(true);
                     setTimeout(() => setShowSuccessMessage(false), 5000);
                 })
                 .catch((error) => {
@@ -133,7 +133,7 @@ function ShortenUrl() {
                             <div className=" w-full h-[140px] max-sm:h-auto flex max-sm:flex-col overflow-hidden justify-between bg-white shadow-lg rounded-lg p-2 max-sm:p-1 mt-10 border max-sm:shadow-none max-sm:border-none border-gray-300 ">
                                 <div className="flex p-0 max-sm:flex-col items-center">
                                     <div className='max-sm:p-2 px-1'>
-                                        <ResponsiveQRCode value={shortUrl} />
+                                        <ResponsiveQRCode value={shortUrl} isLoggedIn={isLoggedIn}/>
                                     </div>
                                     <div className='flex flex-col h-auto md:px-2 max-sm:items-center overflow-hidden' >
                                         <p className="text-sm sm:text-xs md:text-sm mt-2 md:mt-0 text-left max-sm:text-center overflow-hidden font-medium break-words">
