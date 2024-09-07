@@ -110,21 +110,21 @@ function UrlShortener() {
 
       {shortUrl && (
 
-        <div className="w-full max-sm:w-[90%] md:w-[90%] lg:w-[68%] xl:w-[58%] m-auto h-[140px] max-sm:h-auto flex max-sm:flex-col overflow-hidden justify-between bg-white shadow-lg rounded-lg p-4 max-sm:p-1 mt-10 border max-sm:shadow-none max-sm:border-none border-gray-300">
-          <div className="flex p-0 max-sm:flex-col ">
+        <div className="w-full max-sm:w-[90%] md:w-[90%] lg:w-[78%] xl:w-[56.5%] m-auto h-auto max-sm:h-auto flex max-sm:flex-col overflow-hidden justify-between bg-white shadow-lg rounded-lg p-2 max-sm:p-1 mt-10 border max-sm:shadow-none max-sm:border-none border-gray-300">
+          <div className="flex p-0 max-sm:flex-col max-sm:items-center">
             <div className='max-sm:p-2 px-1'>
 
               <ResponsiveQRCode value={shortUrl} />
             </div>
 
 
-            <div className='flex flex-col md:px-2' >
+            <div className='flex flex-col max-sm:items-center ' >
               <p className="text-sm sm:text-xs md:text-lg mt-2 md:mt-0 text-left max-sm:text-center font-medium break-words">
                 <a href={shortUrl} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
                   {shortUrl}
                 </a>
               </p>
-              <p className="text-xs sm:text-sm md:text-base mt-1 text-left max-sm:text-center text-gray-500 break-words">{longUrl}</p>
+              <p className="text-xs sm:text-sm md:text-sm mt-1 text-left max-sm:text-center text-gray-500 break-words">{longUrl}</p>
             </div>
           </div>
           <div className='h-20 w-[50% ] max-sm:flex max-sm:justify-between'>
@@ -143,7 +143,7 @@ function UrlShortener() {
                 <FaEdit className="fill-black" />
               </button>
               <button
-                className="px-3 py-2 bg-white border border-gray-300 flex justify-center items-center rounded hover:bg-gray-100"
+                className="px-1 py-2 bg-white border border-gray-300 flex justify-center items-center rounded hover:bg-gray-100"
                 onClick={() => handleDelete(setLongUrl, setShortUrl)}
               >
                 <FaTrash className="fill-black" />

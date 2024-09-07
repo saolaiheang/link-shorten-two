@@ -18,9 +18,8 @@ Button.button-short{
     Button.button-short{
       background-color: rgb(0, 60, 255);
       border-radius: 10px;
-      padding:7px;
-    
-    
+      padding-left:3px ;
+      padding-right:3px ;
     }
     
   }

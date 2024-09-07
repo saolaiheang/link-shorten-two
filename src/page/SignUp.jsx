@@ -89,7 +89,7 @@ function SignUp() {
 
   return (
     <div>
-      <Header />
+      <Header showLoginSignup={true}/>
       <div>
         <h1 className="text-4xl sm:text-5xl md:text-6xl mt-10 sm:mt-12 md:mt-14">
           Create Account
