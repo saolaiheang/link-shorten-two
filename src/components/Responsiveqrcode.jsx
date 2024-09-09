@@ -157,13 +157,14 @@ const QRCodeComponent = ({ value, logoUrl, isLoggedIn }) => {
     }
 
     .btn-download {
-      background-color: #3498db;
+      background-color: #1B76E1;
       color: white;
     }
 
     .btn-copy {
-      background-color: #e74c3c;
+      background-color: #E43636;
       color: white;
+      
     }
 
     @media (max-width: 640px) {
@@ -173,11 +174,15 @@ const QRCodeComponent = ({ value, logoUrl, isLoggedIn }) => {
       }
 
       .close-btn {
-        font-size: 30px;
-        right: 10px;
-        top: 0px;
+        display:none;
       }
     }
+      @media (max-width:950px){
+      .close-btn{
+      right:5px;
+      color:white;
+      }
+      }
   `}</style>
     </>
   );
