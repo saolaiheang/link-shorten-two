@@ -16,7 +16,7 @@ const Sidebar = () => {
 
   return (
     <div className="flex">
-      <div className={`${open ? "w-72 px-10 h-auto" : "w-20 p-2 h-auto"} bg-slate-200 h-[1500px] pt-8 relative duration-300`}>
+      <div className={`${open ? "w-72 px-10 h-auto" : "w-20 p-2 h-auto"} bg-slate-200 h-screen pt-8 relative duration-300`}>
         <img
           src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRQQ34x-FzmkmTADmbNeHmQ74N097sBj5p7iw&s"
           className={`absolute cursor-pointer -right-3 top-12 w-7 border-dark-purple border-2 rounded-full ${!open && "rotate-180"}`}
