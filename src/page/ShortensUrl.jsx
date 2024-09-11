@@ -9,31 +9,29 @@ import ResponsiveQRCode from "../components/Responsiveqrcode";
 import SuccessMessage from "../components/Successalert";
 import ExpirationDate from "../components/Expiretiondate";
 
-
 async function shortenUrlWithBikay(longUrl) {
-    const apiUrl = `${import.meta.env.VITE_API_URL}/shorten`;
+    const apiUrl = `${import.meta.env.VITE_API_URL}/short/convert`;
+    const token = localStorage.getItem('token');
+    console.log('Token from local storage:', token); // Debugging
+
     try {
         const response = await fetch(apiUrl, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
             },
             body: JSON.stringify({ link: longUrl })
         });
 
         if (!response.ok) {
-            throw new Error('Failed to shorten URL');
+            const errorData = await response.json();
+            console.error('Response error:', errorData);
+            throw new Error(`Failed to shorten URL. Status: ${response.status}`);
         }
 
         const data = await response.json();
-        console.log(data)
-
-
-
         return data.shortened_link;
-
-
-
     } catch (error) {
         console.error('Error:', error);
         return null;
@@ -54,7 +52,7 @@ function ShortenUrl() {
     const handleLogout = () => {
         setIsLoggedIn(false);
         navigate('/');
-        // Add any other logout logic here, like clearing tokens or redirecting
+
     };
     const [longUrl, setLongUrl] = useState('');
     const [shortUrl, setShortUrl] = useState('');
@@ -74,7 +72,7 @@ function ShortenUrl() {
         const result = await shortenUrlWithBikay(longUrl);
         console.log(result, "result")
 
-        if (result) {
+        if (result && result.includes('http')) {
             const urlObj = new URL(result);
             const pathname = urlObj.pathname;
             const parts = pathname.split('/');
@@ -91,7 +89,7 @@ function ShortenUrl() {
         if (navigator && navigator.clipboard) {
             navigator.clipboard.writeText(text)
                 .then(() => {
-                   setShowSuccessMessage(true);
+                    setShowSuccessMessage(true);
                     setTimeout(() => setShowSuccessMessage(false), 5000);
                 })
                 .catch((error) => {
@@ -116,7 +114,7 @@ function ShortenUrl() {
             <div className="flex w-full overflow-hidden">
                 <Sidebar />
                 <div className="w-full h-auto">
-                    <div className="w-[73%] max-sm:w-[70%] max-sm:items-center h-10 mx-[110px] max-sm:mx-[4%] mt-10">
+                    <div className="w-[93%] max-sm:w-[90%] max-sm:items-center h-10 mx-[4%] max-sm:mx-[4%] mt-10">
                         <div className="flex gap-4 w-[100%] h-10  ">
                             <input
                                 type="text"
@@ -130,18 +128,18 @@ function ShortenUrl() {
                         {loading && <p className="mt-4">Shortening your URL...</p>}
                         {showSuccessMessage && <SuccessMessage message="Your copy is completed!" />}
                         {shortUrl && (
-                            <div className=" w-full h-[140px] max-sm:h-auto flex max-sm:flex-col overflow-hidden justify-between bg-white shadow-lg rounded-lg p-2 max-sm:p-1 mt-10 border max-sm:shadow-none max-sm:border-none border-gray-300 ">
-                                <div className="flex p-0 max-sm:flex-col items-center">
+                            <div className=" w-full h-[130px] max-sm:h-auto flex max-sm:flex-col overflow-hidden justify-between bg-white shadow-lg rounded-lg p-2 max-sm:p-1 mt-10 border max-sm:shadow-none max-sm:border-none border-gray-300 ">
+                                <div className="flex p-0 max-sm:flex-col max-sm:items-center">
                                     <div className='max-sm:p-2 px-1'>
-                                        <ResponsiveQRCode value={shortUrl} isLoggedIn={isLoggedIn}/>
+                                        <ResponsiveQRCode value={shortUrl} isLoggedIn={isLoggedIn} />
                                     </div>
                                     <div className='flex flex-col h-auto md:px-2 max-sm:items-center overflow-hidden' >
-                                        <p className="text-sm sm:text-xs md:text-sm mt-2 md:mt-0 text-left max-sm:text-center overflow-hidden font-medium break-words">
+                                        <p className="text-sm sm:text-xs md:text-lg mt-2 md:mt-0 text-left max-sm:text-center overflow-hidden font-medium break-words">
                                             <a href={shortUrl} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
                                                 {shortUrl}
                                             </a>
                                         </p>
-                                        <p className="text-sm md:w-40 max-lg:w-70 sm:text-sm md:text-xs mt-1 text-left max-sm:text-center text-gray-500 break-words">{longUrl}</p>
+                                        <p className="text-sm max-md:w-40 min-md:w-60 max-lg:w-70 sm:text-sm md:text-sm mt-1 text-left max-sm:text-center text-gray-500 break-words">{longUrl}</p>
                                     </div>
                                 </div>
                                 <div className='h-20 w-[50% ] max-sm:flex max-sm:justify-between'>

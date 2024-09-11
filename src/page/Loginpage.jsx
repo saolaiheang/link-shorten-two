@@ -29,11 +29,11 @@ function LoginPage() {
       });
 
       if (response.status === 200) {
-        setShowSuccess(true); // Show success message
+        setShowSuccess(true);
         setTimeout(() => {
           setShowSuccess(false);
           navigate('/shortenurls'); 
-        }, 2000); // Hide message after 2 seconds and navigate
+        }, 2000); 
       } else {
         const data = await response.json();
         setError(data.message || 'Login failed. Please check your credentials.');
