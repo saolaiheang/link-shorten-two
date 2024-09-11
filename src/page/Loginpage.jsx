@@ -9,18 +9,15 @@ function LoginPage() {
   const [error, setError] = useState('');
   const [showSuccess, setShowSuccess] = useState(false); // State to manage success message visibility
   const navigate = useNavigate();
-
   const handleLogin = async (e) => {
     e.preventDefault();
     setError(''); 
-    const token = localStorage.getItem('token');
 
     try {
-      const response = await fetch('https://link-shortener-express.vercel.app/auth/login', {
+      const response = await fetch('https://link-shorten-two.vercel.app/auth/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`,
         },
         body: JSON.stringify({
           email,
@@ -29,6 +26,12 @@ function LoginPage() {
       });
 
       if (response.status === 200) {
+        const data = await response.json();
+
+        // Store token in local storage
+        localStorage.setItem('token', data.token);
+
+        // Show success message and navigate to another page
         setShowSuccess(true);
         setTimeout(() => {
           setShowSuccess(false);
@@ -42,6 +45,7 @@ function LoginPage() {
       setError('Login failed. Please check your credentials.');
     }
   };
+
 
   return (
     <>

@@ -3,6 +3,7 @@ import { useState } from "react";
 import { FaLink, FaUserCircle } from 'react-icons/fa';
 import { MdDashboard } from 'react-icons/md';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import { FaPencilAlt } from "react-icons/fa";
 
 const Sidebar = () => {
   const [open, setOpen] = useState(true);
@@ -12,6 +13,7 @@ const Sidebar = () => {
     { title: "Shortens Links", icon: <FaLink size={35} />, gap: false, path: "/shortenurls" },
     { title: "Dash Boards", icon: <MdDashboard size={35} />, gap: true, path: "/dashboard" },
     { title: "Profile Acc", icon: <FaUserCircle size={35} />, gap: true, path: "/profile" },
+    { title: "Custom Alaises", icon: <FaPencilAlt size={35} />, gap: true, path: "/customalaises" },
   ];
 
   return (

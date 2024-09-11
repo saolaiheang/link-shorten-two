@@ -6,14 +6,14 @@ import Btn from "../components/Btn";
 import Boxdata from "../components/Boxdata";
 import { FaCopy, FaEdit, FaTrash } from 'react-icons/fa';
 import ResponsiveQRCode from "../components/Responsiveqrcode";
+import ExpirationDates from "../components/Expirationshoten";
 import SuccessMessage from "../components/Successalert";
-import ExpirationDate from "../components/Expiretiondate";
+
 
 async function shortenUrlWithBikay(longUrl) {
     const apiUrl = `${import.meta.env.VITE_API_URL}/short/convert`;
-    const token = localStorage.getItem('token');
-    console.log('Token from local storage:', token); // Debugging
-
+    const token=localStorage.getItem('token');
+    console.log('Token from local storage:', token); 
     try {
         const response = await fetch(apiUrl, {
             method: 'POST',
@@ -164,7 +164,7 @@ function ShortenUrl() {
                                             <FaTrash className="fill-black" />
                                         </button>
                                     </div>
-                                    <ExpirationDate shortUrl={shortCode} />
+                                    <ExpirationDates shortUrl={shortCode} />
                                 </div>
                             </div>
                         )}

@@ -27,11 +27,11 @@ function Header({ isLoggedIn, userName, profilePicUrl, onLogout, showLoginSignup
           </>
         ) : isLoggedIn ? (
           <AccountDropdown
-          userName={userName}
-          profilePicUrl={profilePicUrl}
-          onLogout={onLogout}
-        />
-      ) : null}
+            userName={userName}
+            profilePicUrl={profilePicUrl}
+            onLogout={onLogout}
+          />
+        ) : null}
       </nav>
     </header>
   );
