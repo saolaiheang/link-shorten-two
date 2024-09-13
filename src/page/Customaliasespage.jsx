@@ -104,7 +104,7 @@ function Customaliasespage() {
                                 type="text"
                                 value={shortenedUrl}
                                 placeholder="https://link-shortener-frontend-gules.vercel.app/"
-                                className="flex-1 border-2 border-gray-300 rounded-[10px] max-sm:text-[9px] max-sm:rounded-[10px] px-2 py-2 max-sm:w-[100%] h-[56.1px] max-sm:h-[56.1px]  pointer-events-none"
+                                className="flex-1 border-2 border-gray-300 rounded-[10px] max-sm:text-[9px] max-sm:rounded-[10px] px-2 py-2 max-sm:w-[100%] h-[56.1px] max-sm:h-[56.1px]  pointer-events-none font-extrabold "
                                 readOnly
                             />
                             <input
