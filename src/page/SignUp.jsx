@@ -66,9 +66,12 @@ function SignUp() {
         );
 
         const data = await response.json();
-
+     
         if (response.ok) {
           console.log("Form submitted successfully", data);
+          const { token } = data;
+          localStorage.setItem("token", token);
+  
           setShowSuccess(true); // Show success message
           setTimeout(() => {
             setShowSuccess(false);
