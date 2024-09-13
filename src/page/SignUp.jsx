@@ -49,15 +49,17 @@ function SignUp() {
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const token = localStorage.getItem('token');
 
     if (validateForm()) {
       try {
         const response = await fetch(
-          "https://link-shortener-express.vercel.app/auth/signup",
+          "https://link-shorten-two.vercel.app/auth/signup",
           {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
+              'Authorization': `Bearer ${token}`,
             },
             body: JSON.stringify(formData),
           }
