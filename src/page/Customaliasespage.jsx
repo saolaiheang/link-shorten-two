@@ -84,9 +84,9 @@ function Customaliasespage() {
                 onLogout={handleLogout}
                 showLoginSignup={false}
             />
-            <div className="flex w-full overflow-hidden">
+            <div className="flex w-full ">
                 <Sidebar />
-                <div className="w-full h-auto">
+                <div className="w-full h-auto overflow-hidden">
                     <div className="w-[60%] max-sm:w-[90%] max-sm:items-center h-10 m-auto mt-[131px] max-sm:mt-[50px]">
                         <h1 className="text-left text-[20px] py-4">Shorten a long URL</h1>
                         <div className="flex gap-4 w-[100%] h-[56.1px] max-sm:h-auto">
@@ -104,7 +104,7 @@ function Customaliasespage() {
                                 type="text"
                                 value={shortenedUrl}
                                 placeholder="https://link-shortener-frontend-gules.vercel.app/"
-                                className="flex-1 border-2 border-gray-300 rounded-[10px] max-sm:text-[9px] max-sm:rounded-[10px] px-2 py-2 max-sm:w-[100%] h-[56.1px] max-sm:h-[56.1px]"
+                                className="flex-1 border-2 border-gray-300 rounded-[10px] max-sm:text-[9px] max-sm:rounded-[10px] px-2 py-2 max-sm:w-[100%] h-[56.1px] max-sm:h-[56.1px]  pointer-events-none"
                                 readOnly
                             />
                             <input
@@ -122,42 +122,42 @@ function Customaliasespage() {
                         {error && <p className="text-red-500">{error}</p>}
                         {showSuccessMessage && <SuccessMessage message="Your copy is completed!" />}
                         {shortenedUrl && (
-                            <div>
+
                             <div className="w-full h-auto max-sm:h-auto flex max-sm:flex-col overflow-hidden  bg-white shadow-lg rounded-lg p-2 max-sm:p-1 mt-[49px] border border-gray-300 max-sm:shadow-none  max-sm:border-none max-sm:items-center">
 
                                 <QRCodeComponent value={shortenedUrl} isLoggedIn={isLoggedIn} />
+                                <div className="flex w-[100%] flex-wrap max-sm:flex-col ">
 
-                                <div className="px-2 sm:w-[90%]">
-                                    <p className="text-sm sm:text-xs md:text-sm mt-2 md:mt-0 text-left maxmd:text-center max-sm:text-center overflow-hidden font-medium break-words">
-                                        <a href={shortenedUrl} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">{shortenedUrl}</a>
-                                    </p>
-                                    <p className="text-sm max-md:w-90 min-md:w-60 max-lg:w-70 sm:text-sm md:text-xs mt-1 text-left max-sm:text-center max-sm:m-auto text-gray-500 break-words">{longUrl}</p>
+                                    <div className="px-2 w-[80%] md:w[90%] xl:w-[80%] max-sm:w-[90%]">
+                                        <p className="text-sm sm:text-xs md:text-sm mt-2 md:mt-0 text-left maxmd:text-center max-sm:text-center overflow-hidden font-medium break-words">
+                                            <a href={shortenedUrl} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">{shortenedUrl}</a>
+                                        </p>
+                                        <p className="text-sm max-md:w-90 min-md:w-60 max-lg:w-70 sm:text-sm md:text-xs mt-1 text-left max-sm:text-center max-sm:m-auto text-gray-500 break-words">{longUrl}</p>
+                                    </div>
+                                    <div className="flex h-10 md:h-8 md:px-[30%] xl:px-1  xl:h-8 max-sm:h-8 max-sm:w-[5%] gap-2 max-sm:mt-3 max-sm:gap-1">
+                                        <button
+                                            className="px-3 py-2 bg-gray-300 flex justify-center  items-center max-sm:px-1 max-sm:py-1 text-white rounded hover:bg-gray-400"
+                                            onClick={() => copyToClipboard(shortUrl)}
+                                        >
+                                            <FaCopy className="mr-1" />Link
+                                        </button>
+
+                                        <button
+                                            className="px-1 py-2 bg-white border border-gray-300 flex justify-center items-center rounded hover:bg-gray-100"
+                                            onClick={() => handleEdit(setLongUrl, setShortUrl)}
+                                        >
+                                            <FaEdit className="fill-black" />
+                                        </button>
+                                        <button
+                                            className="px-1 py-2 bg-white border border-gray-300 flex justify-center items-center rounded hover:bg-gray-100"
+                                            onClick={() => handleDelete(setLongUrl, setShortUrl)}
+                                        >
+                                            <FaTrash className="fill-black" />
+                                        </button>
+                                    </div>
                                 </div>
-                                
 
 
-                            </div>
-                            <div className="flex h-10 max-sm:h-6  max-sm:w-[5%] gap-2 max-sm:mt-3 max-sm:gap-1">
-                                    <button
-                                        className="px-3 py-2 bg-gray-300 flex justify-center  items-center max-sm:px-1 max-sm:py-1 text-white rounded hover:bg-gray-400"
-                                        onClick={() => copyToClipboard(shortUrl)}
-                                    >
-                                        <FaCopy className="mr-1" />Link
-                                    </button>
-
-                                    <button
-                                        className="px-1 py-2 bg-white border border-gray-300 flex justify-center items-center rounded hover:bg-gray-100"
-                                        onClick={() => handleEdit(setLongUrl, setShortUrl)}
-                                    >
-                                        <FaEdit className="fill-black" />
-                                    </button>
-                                    <button
-                                        className="px-1 py-2 bg-white border border-gray-300 flex justify-center items-center rounded hover:bg-gray-100"
-                                        onClick={() => handleDelete(setLongUrl, setShortUrl)}
-                                    >
-                                        <FaTrash className="fill-black" />
-                                    </button>
-                                </div>
                             </div>
 
                         )}
