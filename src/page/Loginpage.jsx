@@ -30,6 +30,7 @@ function LoginPage() {
 
         // Store token in local storage
         localStorage.setItem('token', data.token);
+        localStorage.setItem('userId', data.userId);
 
         // Show success message and navigate to another page
         setShowSuccess(true);

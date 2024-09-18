@@ -1,10 +1,27 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FaCopy, FaEdit, FaTrash } from "react-icons/fa";
 import Sidebar from "../components/Sidebar";
 import Header from "../components/Header";
 
 function DashboardPage() {
   const [activeTab, setActiveTab] = useState("Cities");
+  const [citiesData, setCitiesData] = useState([]);
+
+  // Function to fetch data from the API
+  const getCitiesData = async () => {
+    try {
+      const response = await fetch("https://example.com/api/cities"); // Replace with your actual API URL
+      const data = await response.json();
+      setCitiesData(data); // Assuming the response is an array of cities
+    } catch (error) {
+      console.error("Error fetching cities data:", error);
+    }
+  };
+
+  // Use useEffect to fetch data when the component mounts
+  useEffect(() => {
+    getCitiesData();
+  }, []);
 
   return (
     <div className="min-h-screen bg-white">
@@ -15,7 +32,6 @@ function DashboardPage() {
       <div className="flex w-full">
         <Sidebar />
         <div className="flex-1 p-4 overflow-x-auto">
-          {/* First Table */}
           <div className="w-full lg:w-10/12 m-auto mt-12 border-2 border-slate-600 max-sm:overflow-scroll rounded-lg overflow-hidden">
             <table className="w-full text-sm lg:text-base">
               <thead>
@@ -53,7 +69,6 @@ function DashboardPage() {
             </table>
           </div>
 
-          {/* Second Table */}
           <div className="w-full lg:w-10/12 m-auto mt-12 border-2 border-slate-600 rounded-lg overflow-hidden">
             <h2 className="font-bold text-lg mb-4 text-left pt-2 px-12">
               Click + scan by Geographic data
@@ -82,8 +97,6 @@ function DashboardPage() {
                 Cities
               </button>
             </div>
-
-            {/* Responsive Table */}
             <table className="w-full lg:w-11/12 m-auto text-sm lg:text-base">
               <thead>
                 <tr className="text-center text-base lg:text-xl text-gray-500">
@@ -93,21 +106,13 @@ function DashboardPage() {
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td className="py-1 font-semibold">1</td>
-                  <td className="py-1">PhnomPenh</td>
-                  <td className="py-1">20</td>
-                </tr>
-                <tr>
-                  <td className="py-1 font-semibold">2</td>
-                  <td className="py-1">New York</td>
-                  <td className="py-1">15</td>
-                </tr>
-                <tr>
-                  <td className="py-1 font-semibold">3</td>
-                  <td className="py-1">Tokyo</td>
-                  <td className="py-1">15</td>
-                </tr>
+                {citiesData.map((city, index) => (
+                  <tr key={index}>
+                    <td className="py-1 font-semibold">{index + 1}</td>
+                    <td className="py-1">{city.name}</td>
+                    <td className="py-1">{city.clicks}</td>
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>
@@ -116,4 +121,5 @@ function DashboardPage() {
     </div>
   );
 }
+
 export default DashboardPage;
