@@ -41,7 +41,7 @@ function Profilepage() {
                             <label>Password:</label>
                             <input type="password" value="12345678" readOnly />
                         </div>
-                        <button className="logout-button "><FaSignOutAlt /><p>Log out</p></button>
+                        <button className="logout-button " onLogout={handleLogout} showLoginSignup={false} ><FaSignOutAlt /><p>Log out</p></button>
                     </div>
                 </div>
             </div>
