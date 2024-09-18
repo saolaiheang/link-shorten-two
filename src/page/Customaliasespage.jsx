@@ -16,8 +16,6 @@ function Customaliasespage() {
     const [error, setError] = useState("");
     const navigate = useNavigate();
     const [showSuccessMessage, setShowSuccessMessage] = useState(false);
-    const [aliasesList, setAliasesList] = useState([]);
-
     const handleLogout = () => {
         setIsLoggedIn(false);
         navigate('/');
@@ -46,37 +44,6 @@ function Customaliasespage() {
         setShortenedUrl('');
         setAlias('');
     }
-
-
-    const fetchAliases = async () => {
-        const apiUrl = `${import.meta.env.VITE_API_URL}/custom/custom-aliases`;
-        const token = localStorage.getItem('token');
-
-        try {
-            const response = await fetch(apiUrl, {
-                method: 'GET',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json',
-                },
-            });
-
-            if (response.ok) {
-                const data = await response.json();
-                console.log(data); // Log the response to verify structure
-                if (data.data) {
-                    setAliasesList(data.data); // Update the aliases list
-                }
-            } else {
-                console.error("Failed to fetch aliases");
-            }
-        } catch (error) {
-            console.error("Error fetching aliases:", error);
-        }
-    };
-
-
-
 
     const handleSubmit = async () => {
         const apiUrl = `${import.meta.env.VITE_API_URL}/custom/custom-aliases`;
@@ -193,35 +160,7 @@ function Customaliasespage() {
 
                         )}
 
-                        {Array.isArray(aliasesList) && aliasesList.length > 0 ? (<div className="aliases-list">
-                            {aliasesList.map((alias) => (
-                                <div key={alias.id} className="alias-item">
-                                    <QRCodeComponent value={alias.shortenedUrl} isLoggedIn={isLoggedIn} />
-                                    <div>
-                                        <p className="text-sm sm:text-xs md:text-sm text-left font-medium break-words">
-                                            <a href={alias.shortenedUrl} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
-                                                {alias.shortenedUrl}
-                                            </a>
-                                        </p>
-                                        <p className="text-sm text-gray-500 break-words">{alias.original_link}</p>
-                                    </div>
-                                    <div className="actions">
-                                        <button onClick={() => copyToClipboard(alias.shortenedUrl)} className="copy-btn">
-                                            <FaCopy /> Copy
-                                        </button>
-                                        <button onClick={() => handleEdit(alias.id)} className="edit-btn">
-                                            <FaEdit /> Edit
-                                        </button>
-                                        <button onClick={() => handleDelete(alias.id)} className="delete-btn">
-                                            <FaTrash /> Delete
-                                        </button>
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-                        ) : (
-                            <p>No aliases found. Create your first custom alias!</p>
-                        )}
+                       
 
 
                     </div>
