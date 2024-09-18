@@ -14,8 +14,8 @@ const Sidebar = () => {
     { title: "Shortens Links", icon: <FaLink size={35} />, gap: false, path: "/shortenurls" },
     { title: "Dash Boards", icon: <MdDashboard size={35} />, gap: true, path: "/dashboard" },
     { title: "Profile Acc", icon: <FaUserCircle size={35} />, gap: true, path: "/profile" },
-    { title: "Custom Alaises", icon: <FaPencilAlt size={35} />, gap: true, path: "/customalaises" },
     { title: "Admin Report", icon: <FaHeadset size={35} />, gap: true, path: "/adminreport" },
+    { title: "Custom Aliases", icon: <FaPencilAlt size={35} />, gap: true, path: "/customalaises" },
   ];
 
   return (

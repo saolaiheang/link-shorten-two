@@ -7,7 +7,11 @@ import ShortenUrl from './page/ShortensUrl';
 import DashboardPage from './page/DashboardPage';
 import './App.css'
 import Customaliasespage from './page/Customaliasespage';
+
 import AdminReport from './page/AdminReportpage';
+
+import Profilepage from './page/Profoilepage';
+
 
 function App() {
   return (
@@ -20,7 +24,7 @@ function App() {
       <Route path="/dashboard" element={<DashboardPage/>} />
       <Route path="/customalaises" element={<Customaliasespage/>} />
       <Route path="/adminreport" element={<AdminReport/>} />
-
+      <Route path="/profile" element={<Profilepage/>} />
     </Routes>
     </>
   )

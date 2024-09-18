@@ -1,6 +1,6 @@
 
 import Header from "../components/Header";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
 import Sidebar from "../components/Sidebar";
 import Btn from "../components/Btn";
@@ -16,7 +16,6 @@ function Customaliasespage() {
     const [error, setError] = useState("");
     const navigate = useNavigate();
     const [showSuccessMessage, setShowSuccessMessage] = useState(false);
-
     const handleLogout = () => {
         setIsLoggedIn(false);
         navigate('/');
@@ -36,15 +35,15 @@ function Customaliasespage() {
             console.error('Clipboard functionality not supported in this browser.');
         }
     }
-    function handleEdit(setLongUrl, setShortUrl) {
-        setShortUrl('');
+    function handleEdit(setLongUrl, setShortenedUrl) {
+        setShortenedUrl('');
     }
 
-    function handleDelete(setLongUrl, setShortUrl) {
+    function handleDelete(setLongUrl, setShortenedUrl, setAlias) {
         setLongUrl('');
-        setShortUrl('');
+        setShortenedUrl('');
+        setAlias('');
     }
-
 
     const handleSubmit = async () => {
         const apiUrl = `${import.meta.env.VITE_API_URL}/custom/custom-aliases`;
@@ -102,7 +101,6 @@ function Customaliasespage() {
                         <div className="flex flex-wrap max-sm:flex-col gap-[57px] max-[1000px]:gap-[20px]">
                             <input
                                 type="text"
-                                value={shortenedUrl}
                                 placeholder="https://link-shortener-frontend-gules.vercel.app/"
                                 className="flex-1 border-2 border-gray-300 rounded-[10px] max-sm:text-[9px] max-sm:rounded-[10px] px-2 py-2 max-sm:w-[100%] h-[56.1px] max-sm:h-[56.1px]  pointer-events-none font-extrabold "
                                 readOnly
@@ -137,20 +135,20 @@ function Customaliasespage() {
                                     <div className="flex h-10 md:h-8 md:px-[30%] xl:px-1  xl:h-8 max-sm:h-8 max-sm:w-[5%] gap-2 max-sm:mt-3 max-sm:gap-1">
                                         <button
                                             className="px-3 py-2 bg-gray-300 flex justify-center  items-center max-sm:px-1 max-sm:py-1 text-white rounded hover:bg-gray-400"
-                                            onClick={() => copyToClipboard(shortUrl)}
+                                            onClick={() => copyToClipboard(shortenedUrl)}
                                         >
                                             <FaCopy className="mr-1" />Link
                                         </button>
 
                                         <button
                                             className="px-1 py-2 bg-white border border-gray-300 flex justify-center items-center rounded hover:bg-gray-100"
-                                            onClick={() => handleEdit(setLongUrl, setShortUrl)}
+                                            onClick={() => handleEdit(setLongUrl, setShortenedUrl, setAlias)}
                                         >
                                             <FaEdit className="fill-black" />
                                         </button>
                                         <button
                                             className="px-1 py-2 bg-white border border-gray-300 flex justify-center items-center rounded hover:bg-gray-100"
-                                            onClick={() => handleDelete(setLongUrl, setShortUrl)}
+                                            onClick={() => handleDelete(setLongUrl, setShortenedUrl, setAlias)}
                                         >
                                             <FaTrash className="fill-black" />
                                         </button>
@@ -161,6 +159,9 @@ function Customaliasespage() {
                             </div>
 
                         )}
+
+                       
+
 
                     </div>
                 </div>
