@@ -20,8 +20,6 @@ function App() {
       <Route path="/dashboard" element={<DashboardPage/>} />
       <Route path="/customalaises" element={<Customaliasespage/>} />
       <Route path="/profile" element={<Profilepage/>} />
-
-
     </Routes>
     </>
   )

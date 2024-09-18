@@ -1,6 +1,6 @@
 
 import Header from "../components/Header";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
 import Sidebar from "../components/Sidebar";
 import Btn from "../components/Btn";
@@ -16,6 +16,7 @@ function Customaliasespage() {
     const [error, setError] = useState("");
     const navigate = useNavigate();
     const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+    const [aliasesList, setAliasesList] = useState([]);
 
     const handleLogout = () => {
         setIsLoggedIn(false);
@@ -40,11 +41,41 @@ function Customaliasespage() {
         setShortenedUrl('');
     }
 
-    function handleDelete(setLongUrl, setShortenedUrl,setAlias) {
+    function handleDelete(setLongUrl, setShortenedUrl, setAlias) {
         setLongUrl('');
         setShortenedUrl('');
         setAlias('');
     }
+
+
+    const fetchAliases = async () => {
+        const apiUrl = `${import.meta.env.VITE_API_URL}/custom/custom-aliases`;
+        const token = localStorage.getItem('token');
+
+        try {
+            const response = await fetch(apiUrl, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                },
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                console.log(data); // Log the response to verify structure
+                if (data.data) {
+                    setAliasesList(data.data); // Update the aliases list
+                }
+            } else {
+                console.error("Failed to fetch aliases");
+            }
+        } catch (error) {
+            console.error("Error fetching aliases:", error);
+        }
+    };
+
+
 
 
     const handleSubmit = async () => {
@@ -103,7 +134,6 @@ function Customaliasespage() {
                         <div className="flex flex-wrap max-sm:flex-col gap-[57px] max-[1000px]:gap-[20px]">
                             <input
                                 type="text"
-                                value={shortenedUrl}
                                 placeholder="https://link-shortener-frontend-gules.vercel.app/"
                                 className="flex-1 border-2 border-gray-300 rounded-[10px] max-sm:text-[9px] max-sm:rounded-[10px] px-2 py-2 max-sm:w-[100%] h-[56.1px] max-sm:h-[56.1px]  pointer-events-none font-extrabold "
                                 readOnly
@@ -138,20 +168,20 @@ function Customaliasespage() {
                                     <div className="flex h-10 md:h-8 md:px-[30%] xl:px-1  xl:h-8 max-sm:h-8 max-sm:w-[5%] gap-2 max-sm:mt-3 max-sm:gap-1">
                                         <button
                                             className="px-3 py-2 bg-gray-300 flex justify-center  items-center max-sm:px-1 max-sm:py-1 text-white rounded hover:bg-gray-400"
-                                            onClick={() => copyToClipboard(shortUrl)}
+                                            onClick={() => copyToClipboard(shortenedUrl)}
                                         >
                                             <FaCopy className="mr-1" />Link
                                         </button>
 
                                         <button
                                             className="px-1 py-2 bg-white border border-gray-300 flex justify-center items-center rounded hover:bg-gray-100"
-                                            onClick={() => handleEdit(setLongUrl, setShortenedUrl,setAlias)}
+                                            onClick={() => handleEdit(setLongUrl, setShortenedUrl, setAlias)}
                                         >
                                             <FaEdit className="fill-black" />
                                         </button>
                                         <button
                                             className="px-1 py-2 bg-white border border-gray-300 flex justify-center items-center rounded hover:bg-gray-100"
-                                            onClick={() => handleDelete(setLongUrl,setShortenedUrl,setAlias)}
+                                            onClick={() => handleDelete(setLongUrl, setShortenedUrl, setAlias)}
                                         >
                                             <FaTrash className="fill-black" />
                                         </button>
@@ -162,6 +192,37 @@ function Customaliasespage() {
                             </div>
 
                         )}
+
+                        {Array.isArray(aliasesList) && aliasesList.length > 0 ? (<div className="aliases-list">
+                            {aliasesList.map((alias) => (
+                                <div key={alias.id} className="alias-item">
+                                    <QRCodeComponent value={alias.shortenedUrl} isLoggedIn={isLoggedIn} />
+                                    <div>
+                                        <p className="text-sm sm:text-xs md:text-sm text-left font-medium break-words">
+                                            <a href={alias.shortenedUrl} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
+                                                {alias.shortenedUrl}
+                                            </a>
+                                        </p>
+                                        <p className="text-sm text-gray-500 break-words">{alias.original_link}</p>
+                                    </div>
+                                    <div className="actions">
+                                        <button onClick={() => copyToClipboard(alias.shortenedUrl)} className="copy-btn">
+                                            <FaCopy /> Copy
+                                        </button>
+                                        <button onClick={() => handleEdit(alias.id)} className="edit-btn">
+                                            <FaEdit /> Edit
+                                        </button>
+                                        <button onClick={() => handleDelete(alias.id)} className="delete-btn">
+                                            <FaTrash /> Delete
+                                        </button>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                        ) : (
+                            <p>No aliases found. Create your first custom alias!</p>
+                        )}
+
 
                     </div>
                 </div>
