@@ -2,24 +2,108 @@
 @tailwind components;
 @tailwind utilities;
 
-Button.button-blue{
+Button.button-blue {
+  background-color: rgb(0, 60, 255);
+}
+
+Button.button-blues {
+  background-color: rgb(0, 60, 255);
+  border-radius: 10px;
+}
+
+Button.button-short {
+  background-color: rgb(0, 60, 255);
+  border-radius: 10px;
+}
+
+@media only screen and (max-width: 600px) {
+  Button.button-short {
     background-color: rgb(0, 60, 255);
+    border-radius: 10px;
+    padding-left: 3px;
+    padding-right: 3px;
   }
 
- Button.button-blues{
-    background-color: rgb(0, 60, 255);
-    border-radius: 10px;
-  }
-Button.button-short{
-    background-color: rgb(0, 60, 255);
-    border-radius: 10px;
-  }
-  @media only screen and (max-width: 600px)  {
-    Button.button-short{
-      background-color: rgb(0, 60, 255);
-      border-radius: 10px;
-      padding-left:3px ;
-      padding-right:3px ;
-    }
-    
-  }
+}
+
+
+/* profile page style */
+
+.profile-container {
+  width: 876px;
+  height: 700px;
+  overflow: hidden;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 20px;
+  border-radius: 15px;
+  text-align: center;
+}
+
+.profile-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.profile-image {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  /* margin-bottom: 10px; */
+  margin-top: 20px;
+}
+
+h2 {
+  font-size: 24px;
+  margin: 0;
+}
+
+.profile-info {
+  margin-bottom: 20px;
+}
+
+.profile-info label {
+  display: block;
+  margin: 10px 0 5px;
+  font-weight: bold;
+}
+
+.profile-info input {
+  width: 100%;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  margin-bottom: 10px;
+  font-size: 16px;
+}
+
+.profile-logout {
+  margin-top: 50px;
+  margin-left: 60%;
+
+
+}
+
+.logout-button {
+  background-color: #AEAEAE;
+  color: white;
+  border: none;
+  padding: 5px 40px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+ 
+ 
+}
+.logout-button p{
+  margin-left: 19px;
+}
+
+.logout-button:hover {
+  background-color: #c9302c;
+}
