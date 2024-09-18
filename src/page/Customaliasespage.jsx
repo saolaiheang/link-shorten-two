@@ -36,13 +36,14 @@ function Customaliasespage() {
             console.error('Clipboard functionality not supported in this browser.');
         }
     }
-    function handleEdit(setLongUrl, setShortUrl) {
-        setShortUrl('');
+    function handleEdit(setLongUrl, setShortenedUrl) {
+        setShortenedUrl('');
     }
 
-    function handleDelete(setLongUrl, setShortUrl) {
+    function handleDelete(setLongUrl, setShortenedUrl,setAlias) {
         setLongUrl('');
-        setShortUrl('');
+        setShortenedUrl('');
+        setAlias('');
     }
 
 
@@ -144,13 +145,13 @@ function Customaliasespage() {
 
                                         <button
                                             className="px-1 py-2 bg-white border border-gray-300 flex justify-center items-center rounded hover:bg-gray-100"
-                                            onClick={() => handleEdit(setLongUrl, setShortUrl)}
+                                            onClick={() => handleEdit(setLongUrl, setShortenedUrl,setAlias)}
                                         >
                                             <FaEdit className="fill-black" />
                                         </button>
                                         <button
                                             className="px-1 py-2 bg-white border border-gray-300 flex justify-center items-center rounded hover:bg-gray-100"
-                                            onClick={() => handleDelete(setLongUrl, setShortUrl)}
+                                            onClick={() => handleDelete(setLongUrl,setShortenedUrl,setAlias)}
                                         >
                                             <FaTrash className="fill-black" />
                                         </button>
