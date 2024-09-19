@@ -50,7 +50,7 @@ function SignUp() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const token = localStorage.getItem('token');
-
+  
     if (validateForm()) {
       try {
         const response = await fetch(
@@ -64,15 +64,16 @@ function SignUp() {
             body: JSON.stringify(formData),
           }
         );
-
+  
         const data = await response.json();
-     
+        
         if (response.ok) {
           console.log("Form submitted successfully", data);
-          const { token } = data;
+          const { token, userId } = data; // assuming the response contains userId
           localStorage.setItem("token", token);
+          localStorage.setItem("userId", userId); // store userId in localStorage
   
-          setShowSuccess(true); 
+          setShowSuccess(true);
           setTimeout(() => {
             setShowSuccess(false);
             navigate("/shortenurls");
@@ -91,6 +92,7 @@ function SignUp() {
       });
     }
   };
+  
 
   return (
     <div>
@@ -153,7 +155,7 @@ function SignUp() {
             Sign up
           </button>
         </form>
-        {showSuccess && <SuccessMessage message="Account created successfully!" />} {/* Render success message */}
+        {showSuccess && <SuccessMessage message="Account created successfully!" />} 
       </div>
     </div>
   );

@@ -7,7 +7,7 @@ function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  const [showSuccess, setShowSuccess] = useState(false); // State to manage success message visibility
+  const [showSuccess, setShowSuccess] = useState(false); 
   const navigate = useNavigate();
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -27,12 +27,8 @@ function LoginPage() {
 
       if (response.status === 200) {
         const data = await response.json();
-
-        // Store token in local storage
         localStorage.setItem('token', data.token);
         localStorage.setItem('userId', data.userId);
-
-        // Show success message and navigate to another page
         setShowSuccess(true);
         setTimeout(() => {
           setShowSuccess(false);
@@ -86,7 +82,7 @@ function LoginPage() {
                 <p>{error}</p>
               </div>
             )}
-            {showSuccess && <SuccessMessage message="Login successful!" />} {/* Render success message */}
+            {showSuccess && <SuccessMessage message="Login successful!" />} 
             <div className="text-center sm:text-left">
               <button
                 type="submit"
