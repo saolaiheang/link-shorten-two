@@ -10,13 +10,21 @@ function Profilepage() {
         setIsLoggedIn(false);
         navigate('/');
     };
+
+
     return (
         <>
             <Header
                 isLoggedIn={isLoggedIn}
                 userName="Lai heang"
                 profilePicUrl="https://w7.pngwing.com/pngs/215/58/png-transparent-computer-icons-google-account-scalable-graphics-computer-file-my-account-icon-rim-123rf-symbol-thumbnail.png"
-                onLogout={handleLogout}
+                onLogout={() => {
+                    setIsLoggedIn(false);
+                    localStorage.removeItem('token');
+                    localStorage.removeItem('userId');
+                    localStorage.removeItem(`shortenedLinks_${localStorage.getItem('userId')}`);
+                    navigate('/');
+                }}
                 showLoginSignup={false} />
             <div className="flex">
                 <Sidebar />
