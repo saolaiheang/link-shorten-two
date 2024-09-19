@@ -1,6 +1,7 @@
 import { FaCopy, FaEdit, FaTrash } from "react-icons/fa";
 import Sidebar from "../components/Sidebar";
 import Header from "../components/Header";
+import { useState } from "react";
 
 // Example user data
 const users = [
@@ -24,12 +25,21 @@ const stats = {
 };
 
 function AdminReport() {
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
   return (
     <div className="min-h-screen bg-white">
       <Header
+        isLoggedIn={isLoggedIn}
         userName="Lai heang"
         profilePicUrl="https://w7.pngwing.com/pngs/215/58/png-transparent-computer-icons-google-account-scalable-graphics-computer-file-my-account-icon-rim-123rf-symbol-thumbnail.png"
-      />
+        onLogout={() => {
+            setIsLoggedIn(false);
+            localStorage.removeItem('token');
+            localStorage.removeItem('userId');
+            localStorage.removeItem(`shortenedLinks_${localStorage.getItem('userId')}`);
+            navigate('/');
+        }}
+        showLoginSignup={false} />
       <div className="flex w-full">
         <Sidebar />
         <div className="flex-1 p-4 overflow-x-auto">
