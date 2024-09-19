@@ -1,14 +1,14 @@
-
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+
 function AccountDropdown({ userName, profilePicUrl, onLogout }) {
   const [isOpen, setIsOpen] = useState(false);
   const [userData, setUserData] = useState(null);
+  const navigate = useNavigate();
 
-  
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
   };
-
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -39,7 +39,16 @@ function AccountDropdown({ userName, profilePicUrl, onLogout }) {
     if (isOpen) {
       fetchUserData(); 
     }
-  }, [isOpen, userData]); 
+  }, [isOpen, userData]);
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('userId');
+
+    if (onLogout) onLogout();
+
+    navigate('/');
+  };
 
   return (
     <div className="relative">
@@ -49,17 +58,19 @@ function AccountDropdown({ userName, profilePicUrl, onLogout }) {
           src={profilePicUrl}
           alt="Profile"
         />
-        <span className="text-white text-lg uppercase sm:text-2xl ml-2">{userData ? userData.username : 'Loading...'}</span>
+        <span className="text-white text-lg uppercase sm:text-2xl ml-2">
+          {userData ? userData.username : 'Loading...'}
+        </span>
       </button>
 
       {isOpen && (
         <div className="absolute right-0 mt-2 w-60 bg-white rounded-md shadow-lg z-20">
           <div className="px-4 py-8 w-full text-lg  text-black">
             <p>{userData ? userData.username : 'Loading...'}</p>
-            <p> {userData ? userData.email : 'Loading...'}</p>
+            <p>{userData ? userData.email : 'Loading...'}</p>
           </div>
           <button
-            onClick={onLogout}
+            onClick={handleLogout}
             className="block w-full px-4 py-2 text-left text-lg bg-slate-300 text-gray-700 hover:bg-gray-300"
           >
             Logout

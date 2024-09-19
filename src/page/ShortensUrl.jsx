@@ -8,14 +8,14 @@ import ResponsiveQRCode from "../components/Responsiveqrcode";
 import ExpirationDates from "../components/Expirationshoten";
 import SuccessMessage from "../components/Successalert";
 
-// Function to save shortened links to local storage based on userId
+
 function saveLinksToLocalStorageByUserId(userId, links) {
     if (userId) {
         localStorage.setItem(`shortenedLinks_${userId}`, JSON.stringify(links));
     }
 }
 
-// Function to get shortened links from local storage based on userId
+
 function getLinksFromLocalStorageByUserId(userId) {
     if (userId) {
         const storedLinks = localStorage.getItem(`shortenedLinks_${userId}`);
@@ -128,7 +128,7 @@ function ShortenUrl() {
     useEffect(() => {
         const token = localStorage.getItem('token');
         if (!token) {
-            navigate('/login'); // Redirect to login if no token is found
+            navigate('/login'); 
         }
     }, [navigate]);
 
@@ -140,9 +140,9 @@ function ShortenUrl() {
                 profilePicUrl="https://w7.pngwing.com/pngs/215/58/png-transparent-computer-icons-google-account-scalable-graphics-computer-file-my-account-icon-rim-123rf-symbol-thumbnail.png"
                 onLogout={() => {
                     setIsLoggedIn(false);
-                    localStorage.removeItem('token'); // Remove token on logout
-                    localStorage.removeItem('userId'); // Remove userId on logout
-                    localStorage.removeItem(`shortenedLinks_${localStorage.getItem('userId')}`); // Remove links associated with userId
+                    localStorage.removeItem('token'); 
+                    localStorage.removeItem('userId'); 
+                    localStorage.removeItem(`shortenedLinks_${localStorage.getItem('userId')}`); 
                     navigate('/');
                 }}
                 showLoginSignup={false}
@@ -164,7 +164,7 @@ function ShortenUrl() {
                         {loading && <p className="mt-4">Shortening your URL...</p>}
                         {showSuccessMessage && <SuccessMessage message="Your copy is completed!" />}
 
-                        {/* Display shortened links */}
+                       
                         {links.length > 0 && (
                             <div className="mt-10">
                                 {links.map((link, index) => (
