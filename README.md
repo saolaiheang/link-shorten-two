@@ -9,5 +9,5 @@ Currently, two official plugins are available:
 
 
 # 
-git clone <repository-url>
-```https://example.com`
+git clone
+```https://example.com```
