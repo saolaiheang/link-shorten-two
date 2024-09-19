@@ -10,3 +10,4 @@ Currently, two official plugins are available:
 
 # 
 git clone <repository-url>
+[Link Text](https://example.com
