@@ -13,8 +13,7 @@ function SignUp() {
     email: "",
     password: "",
   });
-  const [showSuccess, setShowSuccess] = useState(false); // State to manage success message visibility
-  const navigate = useNavigate();
+  const [showSuccess, setShowSuccess] = useState(false); 
   const validateForm = () => {
     let formIsValid = true;
     let newErrors = { username: "", email: "", password: "" };
@@ -72,11 +71,11 @@ function SignUp() {
           const { token } = data;
           localStorage.setItem("token", token);
   
-          setShowSuccess(true); // Show success message
+          setShowSuccess(true); 
           setTimeout(() => {
             setShowSuccess(false);
             navigate("/shortenurls");
-          }, 2000); // Hide message after 2 seconds and navigate
+          }, 2000); 
         } else {
           console.log("Error:", data.message);
         }
