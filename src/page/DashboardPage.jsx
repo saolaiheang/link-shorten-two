@@ -6,6 +6,7 @@ import Header from "../components/Header";
 function DashboardPage() {
   const [activeTab, setActiveTab] = useState("Cities");
   const [citiesData, setCitiesData] = useState([]);
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
 
   // Function to fetch data from the API
   const getCitiesData = async () => {
@@ -26,8 +27,17 @@ function DashboardPage() {
   return (
     <div className="min-h-screen bg-white">
       <Header
+        isLoggedIn={isLoggedIn}
         userName="Lai heang"
         profilePicUrl="https://w7.pngwing.com/pngs/215/58/png-transparent-computer-icons-google-account-scalable-graphics-computer-file-my-account-icon-rim-123rf-symbol-thumbnail.png"
+        onLogout={() => {
+          setIsLoggedIn(false);
+          localStorage.removeItem('token');
+          localStorage.removeItem('userId');
+          localStorage.removeItem(`shortenedLinks_${localStorage.getItem('userId')}`);
+          navigate('/');
+        }}
+        showLoginSignup={false}
       />
       <div className="flex w-full">
         <Sidebar />
@@ -77,21 +87,19 @@ function DashboardPage() {
             {/* Tabs */}
             <div className="flex mb-4 w-11/12 m-auto border border-slate-400 rounded-full overflow-hidden">
               <button
-                className={`flex-1 py-2 transition-colors text-center text-2xl ${
-                  activeTab === "Countries"
+                className={`flex-1 py-2 transition-colors text-center text-2xl ${activeTab === "Countries"
                     ? "bg-gray-100 text-gray-700 rounded-full border border-gray-300"
                     : "bg-white text-black"
-                }`}
+                  }`}
                 onClick={() => setActiveTab("Countries")}
               >
                 Countries
               </button>
               <button
-                className={`flex-1 py-2 transition-colors text-center text-2xl ${
-                  activeTab === "Cities"
+                className={`flex-1 py-2 transition-colors text-center text-2xl ${activeTab === "Cities"
                     ? "bg-gray-100 text-gray-700 rounded-full border border-gray-300"
                     : "bg-white text-black"
-                }`}
+                  }`}
                 onClick={() => setActiveTab("Cities")}
               >
                 Cities
