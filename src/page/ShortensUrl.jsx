@@ -15,7 +15,6 @@ function saveLinksToLocalStorageByUserId(userId, links) {
     }
 }
 
-
 function getLinksFromLocalStorageByUserId(userId) {
     if (userId) {
         const storedLinks = localStorage.getItem(`shortenedLinks_${userId}`);
