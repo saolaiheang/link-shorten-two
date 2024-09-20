@@ -34,6 +34,7 @@ function DashboardPage() {
           setIsLoggedIn(false);
           localStorage.removeItem('token');
           localStorage.removeItem('userId');
+          localStorage.removeItem('role');
           localStorage.removeItem(`shortenedLinks_${localStorage.getItem('userId')}`);
           navigate('/');
         }}
