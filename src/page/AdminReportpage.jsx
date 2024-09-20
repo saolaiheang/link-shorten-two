@@ -2,30 +2,45 @@ import { FaCopy, FaEdit, FaTrash } from "react-icons/fa";
 import Sidebar from "../components/Sidebar";
 import Header from "../components/Header";
 import { useState } from "react";
-
-// Example user data
-const users = [
-  { username: "laihheang24", active: true },
-  { username: "RapidFalcon23", active: false },
-  { username: "SilverLion99", active: true },
-  { username: "MysticWolf45", active: false },
-  { username: "BraveTiger87", active: false },
-  { username: "ShadowBear34", active: true },
-  { username: "StormRider56", active: false },
-  { username: "ThunderHawk22", active: true },
-  { username: "FireKnight68", active: false },
-  { username: "SwiftShark71", active: true }
-];
-
-// Example stats
-const stats = {
-  totalUsers: 51,
-  totalShortenedUrls: 51,
-  totalClicks: 51
-};
+import axios from 'axios';
 
 function AdminReport() {
   const [isLoggedIn, setIsLoggedIn] = useState(true);
+  const [startDate, setStartDate] = useState('');
+  const [endDate, setEndDate] = useState('');
+  const [totalConversions, setTotalConversions] = useState(0);
+  const [activeUsers, setActiveUsers] = useState(0);
+  const [topLinks, setTopLinks] = useState([]);
+  const [dailyStats, setDailyStats] = useState([]);
+
+  const getTotal = async () => {
+    const token = localStorage.getItem('token'); 
+
+    try {
+      const response = await axios.post(
+        'https://link-shorten-two.vercel.app/api/report/report', 
+        {
+          startDate: startDate,
+          endDate: endDate
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}` // Include token in the headers
+          }
+        }
+      );
+
+      const report = response.data.report;
+      setTotalConversions(report.total_conversions || 0);
+      setActiveUsers(report.active_users || 0);
+      setTopLinks(report.top_links || []);
+      setDailyStats(report.daily_stats || []);
+    } catch (error) {
+      console.error('Error fetching report data:', error);
+      
+    }
+  };
+
   return (
     <div className="min-h-screen bg-white">
       <Header
@@ -33,75 +48,94 @@ function AdminReport() {
         userName="Lai heang"
         profilePicUrl="https://w7.pngwing.com/pngs/215/58/png-transparent-computer-icons-google-account-scalable-graphics-computer-file-my-account-icon-rim-123rf-symbol-thumbnail.png"
         onLogout={() => {
-            setIsLoggedIn(false);
-            localStorage.removeItem('token');
-            localStorage.removeItem('userId');
-            localStorage.removeItem(`shortenedLinks_${localStorage.getItem('userId')}`);
-            navigate('/');
+          setIsLoggedIn(false);
+          localStorage.removeItem('token');
+          localStorage.removeItem('userId');
+          localStorage.removeItem(`shortenedLinks_${localStorage.getItem('userId')}`);
+          navigate('/');
         }}
-        showLoginSignup={false} />
+        showLoginSignup={false}
+      />
       <div className="flex w-full">
         <Sidebar />
         <div className="flex-1 p-4 overflow-x-auto">
-          {/* Stats Cards */}
+          {/* Date Filter */}
           <div className="w-full lg:w-10/12 m-auto mt-6 flex flex-col lg:flex-row justify-between gap-4">
-            <div className="bg-gray-100 p-4 rounded-lg shadow border border-black w-full lg:w-1/4 h-40">
-              <h3 className="text-left text-xl font-bold">Total User</h3>
-              <p className="text-5xl font-bold mt-4">{stats.totalUsers}</p>
-            </div>
-            <div className="bg-gray-100 p-4 rounded-lg shadow border border-black w-full lg:w-1/4 h-40">
-              <h3 className="text-left text-xl font-bold">Total Shortens url</h3>
-              <p className="text-5xl font-bold mt-4">{stats.totalShortenedUrls}</p>
-            </div>
-            <div className="bg-gray-100 p-4 rounded-lg shadow border border-black w-full lg:w-1/4 h-40">
-              <h3 className="text-left text-xl font-bold">Total clicks shortened url</h3>
-              <p className="text-5xl font-bold mt-4">{stats.totalClicks}</p>
+            <div className="flex items-center gap-4">
+              <label >Start Date:</label>
+              <input
+                type="date"
+                value={startDate}
+                onChange={(e) => setStartDate(e.target.value)}
+                className="border border-gray-300 p-2 rounded"
+              />
+              <label>End Date:</label>
+              <input
+                type="date"
+                value={endDate}
+                onChange={(e) => setEndDate(e.target.value)}
+                className="border border-gray-300 p-2 rounded"
+              />
+              <button
+                onClick={getTotal}
+                className="bg-blue-500 text-white p-2 rounded"
+              >
+                Get Total
+              </button>
             </div>
           </div>
 
-          {/* Users Table */}
-          <div className="w-full lg:w-10/12 m-auto mt-12 border-2 border-slate-600 max-sm:overflow-scroll rounded-lg overflow-hidden">
-            <table className="w-full text-sm lg:text-base">
-              <thead>
-                <tr className="bg-gray-200 text-center text-base lg:text-xl">
-                  <th className="p-4 border font-normal">Action</th>
-                  <th className="p-4 border font-normal">Username</th>
-                  <th className="p-4 border font-normal">Active</th>
-                  <th className="p-4 border font-normal">Status</th>
-                </tr>
-              </thead>
-              <tbody>
-                {users.map((user, index) => (
-                  <tr key={index} className="border-2 text-center">
-                    <td className="p-4">
-                      <button className="bg-blue-500 text-white py-1 px-3 lg:px-7 rounded-lg hover:bg-blue-600">
-                        View
-                      </button>
-                    </td>
-                    <td className="p-4">{user.username}</td>
-                    <td className="p-4">
-                      <span
-                        className={`py-1 px-3 rounded-full ${
-                          user.active ? "bg-green-100 text-green-600" : "bg-red-100 text-red-600"
-                        }`}
-                      >
-                        {user.active ? "active" : "inactive"}
-                      </span>
-                    </td>
-                    <td className="p-4 flex items-center justify-center gap-2">
-                      <button className="bg-white border rounded p-2 hover:bg-gray-100 flex items-center">
-                        <FaEdit className="text-gray-600" />
-                      </button>
-                      <button className="bg-white border rounded p-2 hover:bg-gray-100 flex items-center">
-                        <FaTrash className="text-gray-600" />
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+          {/* Display Total Conversions and Active Users */}
+          <div className="w-full lg:w-10/12 m-auto mt-[2%] flex flex-col lg:flex-row justify-between gap-4">
+            <div className="bg-gray-100 p-4 rounded-lg shadow border border-black w-full lg:w-1/4 h-40">
+              <h3 className="text-left text-xl font-bold">Total Conversions</h3>
+              <p className="text-5xl font-bold mt-4">{totalConversions}</p>
+            </div>
+            <div className="bg-gray-100 p-4 rounded-lg shadow border border-black w-full lg:w-1/4 h-40">
+              <h3 className="text-left text-xl font-bold">User activity</h3>
+              <p className="text-5xl font-bold mt-4">{totalConversions}</p>
+            </div>
+            <div className="bg-gray-100 p-4 rounded-lg shadow border border-black w-full lg:w-1/4 h-40">
+              <h3 className="text-left text-xl font-bold">Active Users</h3>
+              <p className="text-5xl font-bold mt-4">{activeUsers}</p>
+            </div>
           </div>
 
+          {/* Display Top Links */}
+          <div className="w-full lg:w-10/12 m-auto mt-6">
+            <h3 className="text-left text-xl font-bold">Top Links</h3>
+            <div className="bg-gray-100 p-4 rounded-lg shadow border border-black mt-4">
+              {topLinks.length > 0 ? (
+                topLinks.map((link, index) => (
+                  <div key={index} className="flex justify-between mb-4">
+                    <span>Original URL: {link.original_url}</span>
+                    <span>Short URL: {link.short_url}</span>
+                    <span>Total Clicks: {link.total_clicks}</span>
+                  </div>
+                ))
+              ) : (
+                <p>No top links available</p>
+              )}
+            </div>
+          </div>
+
+          {/* Display Daily Stats */}
+          <div className="w-full lg:w-10/12 m-auto mt-6">
+            <h3 className="text-left text-xl font-bold">Daily Stats</h3>
+            <div className="bg-gray-100 p-4 rounded-lg shadow border border-black mt-4">
+              {dailyStats.length > 0 ? (
+                dailyStats.map((stat, index) => (
+                  <div key={index} className="flex justify-between mb-4">
+                    <span>Date: {new Date(stat.date).toLocaleDateString()}</span>
+                    <span>Conversions: {stat.conversions}</span>
+                    <span>Total Clicks: {stat.total_clicks}</span>
+                  </div>
+                ))
+              ) : (
+                <p>No daily stats available</p>
+              )}
+            </div>
+          </div>
         </div>
       </div>
     </div>
