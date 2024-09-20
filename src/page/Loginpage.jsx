@@ -29,7 +29,8 @@ function LoginPage() {
         const data = await response.json();
         localStorage.setItem('token', data.token);
         localStorage.setItem('userId', data.userId);
-        localStorage.setItem('role', data.role);     
+        localStorage.setItem('role', data.role);  
+        setShowSuccess(true);   
         setTimeout(() => {
           setShowSuccess(false);
           navigate('/shortenurls'); 

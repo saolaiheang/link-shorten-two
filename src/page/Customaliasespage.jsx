@@ -66,10 +66,19 @@ function CustomAliasesPage() {
         setShortenedUrl('');
     };
 
+function saveLinksToLocalStorageByUserId(userId, links) {
+    if (userId) {
+        localStorage.setItem(`shortenedLinks_${userId}`, JSON.stringify(links));
+    }
+}
+
     const handleDelete = (index) => {
-        const newLinks = links.filter((_, i) => i !== index);
-        setLinks(newLinks);
-        // Here, you can also make an API call to delete the link on the server-side.
+        setLinks((prevLinks) => {
+            const updatedLinks = prevLinks.filter((_, i) => i !== index);
+            const userId = localStorage.getItem('userId');
+            saveLinksToLocalStorageByUserId(userId, updatedLinks);
+            return updatedLinks;
+        });
     };
 
     const handleSubmit = async () => {
@@ -159,8 +168,9 @@ function CustomAliasesPage() {
                         {error && <p className="text-red-500">{error}</p>}
                         {showSuccessMessage && <SuccessMessage message="Your copy is completed!" />}
                         {links.length > 0 && (
-                            <div className="pt-[54px]">
+                            <div className="pt-[54px] flexed">
                                 <h2 className="text-left text-[20px] pb-4">Your Shortened Links</h2>
+                                <div className="max-h-[300px] overflow-y-auto"> 
                                 {links.map((link, index) => (
                                     <div key={index} className="w-full h-auto max-sm:h-auto flex max-sm:flex-col overflow-hidden bg-white shadow-lg rounded-lg p-2 max-sm:p-1 mt-[49px] border border-gray-300 max-sm:shadow-none max-sm:border-none max-sm:items-center">
                                         <QRCodeComponent value={link.converted_custom_link} isLoggedIn={isLoggedIn} />
@@ -173,27 +183,27 @@ function CustomAliasesPage() {
                                             </div>
                                             <div className="flex h-10 md:h-8 md:px-[30%] xl:px-1 xl:h-8 max-sm:h-8 max-sm:w-[5%] gap-2 max-sm:mt-3 max-sm:gap-1">
                                                 <button
-                                                    className="px-3 py-2 bg-gray-300 flex justify-center items-center max-sm:px-1 max-sm:py-1 text-blue-700"
+                                                    className="px-1 py-2 bg-gray-300 flex justify-center items-center max-sm:px-1 max-sm:py-1 rounded-[5px] text-white"
                                                     onClick={() => copyToClipboard(link.converted_custom_link)}
                                                 >
-                                                    <FaCopy className="max-sm:h-[1em]" />
+                                                    <FaCopy className="max-sm:h-[1em]" />link
                                                 </button>
                                                 <button
-                                                    className="px-3 py-2 bg-gray-300 flex justify-center items-center max-sm:px-1 max-sm:py-1 text-yellow-700"
+                                                    className="px-1 py-2 border-2 flex justify-center items-center max-sm:px-1 max-sm:py-1 rounded-[5px]"
                                                     onClick={() => handleEdit(index)}
                                                 >
                                                     <FaEdit className="max-sm:h-[1em]" />
                                                 </button>
                                                 <button
-                                                    className="px-3 py-2 bg-gray-300 flex justify-center items-center max-sm:px-1 max-sm:py-1 text-red-700"
-                                                    onClick={() => handleDelete(index)}
-                                                >
+                                                    className="px-1 py-2 border-2  flex justify-center items-center max-sm:px-1 max-sm:py-1 rounded-[5px]"
+                                                    onClick={() => handleDelete(index)}                                                >
                                                     <FaTrash className="max-sm:h-[1em]" />
                                                 </button>
                                             </div>
                                         </div>
                                     </div>
                                 ))}
+                                </div>
                             </div>
                         )}
                     </div>
