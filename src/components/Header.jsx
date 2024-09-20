@@ -6,7 +6,7 @@ import AccountDropdown from './Accountsdrop';
 function Header({ isLoggedIn, userName, profilePicUrl, onLogout, showLoginSignup }) {
   return (
     <header className="flex justify-between items-center h-[83px] bg-blue-600 p-4 sm:p-10">
-      <Link to="/">
+      <Link to="/shortenurls">
         <div>
           <img
             className="rounded-full w-12 sm:w-14"
