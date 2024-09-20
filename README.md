@@ -39,7 +39,8 @@ List all technologies, libraries, and tools used for front-end development are:
 ├── utils/               # Utility functions (e.g., API calls, helpers)
 ├── App.js               # Main application file
 ├── index.js             # Entry point
-└── ...```
+└── ...
+```
 
 // Installation & Setup
 1.Clone the repository:
