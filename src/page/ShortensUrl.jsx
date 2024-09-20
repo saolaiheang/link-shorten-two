@@ -97,8 +97,8 @@ function ShortenUrl() {
             const urlObj = new URL(result);
             const pathname = urlObj.pathname;
             const parts = pathname.split('/');
-            const shortCode = parts[parts.length - 1];
-            setShortCode(shortCode);
+            const shortCodes = parts[parts.length - 1];
+            setShortCode(shortCodes);
             setShortUrl(result);
 
             const newLink = { longUrl, shortUrl: result };
@@ -205,7 +205,7 @@ function ShortenUrl() {
                                                     <FaTrash className="fill-black" />
                                                 </button>
                                             </div>
-                                            <ExpirationDates shortUrl={link.shortUrl.split('/').pop()} />
+                                            <ExpirationDates shortUrl={link.shortUrl.split('/').pop()}/>
                                         </div>
                                     </div>
                                 ))}
