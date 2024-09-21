@@ -8,20 +8,36 @@ import ResponsiveQRCode from "../components/Responsiveqrcode";
 import ExpirationDates from "../components/Expirationshoten";
 import SuccessMessage from "../components/Successalert";
 
-
 function saveLinksToLocalStorageByUserId(userId, links) {
     if (userId) {
         localStorage.setItem(`shortenedLinks_${userId}`, JSON.stringify(links));
     }
 }
 
-function getLinksFromLocalStorageByUserId(userId) {
-    if (userId) {
-        const storedLinks = localStorage.getItem(`shortenedLinks_${userId}`);
-        return storedLinks ? JSON.parse(storedLinks) : [];
+async function fetchUserLinks() {
+    const token = localStorage.getItem('token');
+    try {
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/short/linked`, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+        if (!response.ok) {
+            throw new Error(`Failed to fetch user links. Status: ${response.status}`);
+        }
+        const data = await response.json();
+        const linksArray = Object.keys(data.list_of_converted_links).map((longUrl) => ({
+            longUrl: longUrl,
+            shortUrl: `${import.meta.env.VITE_API_URL}/short/${data.list_of_converted_links[longUrl]}`
+        }));
+        return linksArray;
+    } catch (error) {
+        console.error('Error:', error);
+        return [];
     }
-    return [];
 }
+
 
 async function shortenUrlWithBikay(longUrl) {
     const apiUrl = `${import.meta.env.VITE_API_URL}/short/convert`;
@@ -71,17 +87,15 @@ function ShortenUrl() {
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
     const [showSuccessMessage, setShowSuccessMessage] = useState(false);
-    const [links, setLinks] = useState(() => {
-        const userId = localStorage.getItem('userId');
-        return getLinksFromLocalStorageByUserId(userId);
-    });
+    const [links, setLinks] = useState([]);
 
     useEffect(() => {
-        const userId = localStorage.getItem('userId');
-        if (userId) {
-            saveLinksToLocalStorageByUserId(userId, links);
-        }
-    }, [links]);
+        const fetchLinks = async () => {
+            const userLinks = await fetchUserLinks();
+            setLinks(userLinks);
+        };
+        fetchLinks();
+    }, []);
 
     const handleShorten = async () => {
         if (!longUrl || !longUrl.startsWith('http')) {
@@ -164,7 +178,6 @@ function ShortenUrl() {
                         {loading && <p className="mt-4">Shortening your URL...</p>}
                         {showSuccessMessage && <SuccessMessage message="Your copy is completed!" />}
 
-                       
                         {links.length > 0 && (
                             <div className="mt-10">
                                 {links.map((link, index) => (
