@@ -3,6 +3,7 @@ import Sidebar from "../components/Sidebar";
 import Header from "../components/Header";
 import { useState } from "react";
 import axios from 'axios';
+import { useNavigate } from "react-router";
 
 function AdminReport() {
   const [isLoggedIn, setIsLoggedIn] = useState(true);
@@ -13,7 +14,8 @@ function AdminReport() {
   const [topLinks, setTopLinks] = useState([]);
   const [userActivity, setUserActivity] = useState([]);
   const [totalUserConversions, setTotalUserConversions] = useState(0);
-  const [loading, setLoading] = useState(false); // New loading state
+  const [loading, setLoading] = useState(false); 
+  const navigate = useNavigate();
 
   const getTotal = async () => {
     const token = localStorage.getItem('token'); 
@@ -23,7 +25,7 @@ function AdminReport() {
       return;
     }
 
-    setLoading(true); // Start loading
+    setLoading(true); 
 
     try {
       const response = await axios.post(
@@ -146,25 +148,38 @@ function AdminReport() {
             </div>
           )}
 
-          {/* User Activity Breakdown */}
-          {!loading && (
-            <div className="w-full lg:w-10/12 m-auto mt-6">
-              <h3 className="text-left text-xl font-bold">User Activity Breakdown</h3>
-              <div className="bg-gray-100 p-4 rounded-lg shadow border border-black mt-4">
-                {userActivity.length > 0 ? (
-                  userActivity.map((user, index) => (
-                    <div key={index} className="flex justify-between mb-4">
-                      <span>Username: {user.username}</span>
-                      <span>Shortened: {user.conversions}</span>
-                      <span>Total Clicks: {user.total_clicks}</span>
-                    </div>
-                  ))
-                ) : (
-                  <p>No user activity available</p>
-                )}
-              </div>
-            </div>
+{!loading && (
+  <div className="w-full lg:w-10/12 m-auto mt-6">
+    <h3 className="text-left text-xl font-bold">User Activity Breakdown</h3>
+    <div className="border border-black rounded-lg overflow-hidden mt-4">
+      <table className="min-w-full">
+        <thead className="bg-gray-100 border-b  border-black">
+          <tr>
+            <th className="px-4 py-2 text-center text-black">Username</th>
+            <th className="px-4 py-2 text-center text-black">Total Shortened</th>
+            <th className="px-4 py-2 text-center text-black">Total Clicks</th>
+          </tr>
+        </thead>
+        <tbody>
+          {userActivity.length > 0 ? (
+            userActivity.map((user, index) => (
+              <tr key={index} className="border-b">
+                <td className="px-4 py-2 text-gray-600">{user.username}</td>
+                <td className="px-4 py-2 text-gray-600">{user.conversions}</td>
+                <td className="px-4 py-2 text-gray-600">{user.total_clicks}</td>
+              </tr>
+            ))
+          ) : (
+            <tr>
+              <td colSpan="3" className="px-4 py-2 text-center text-gray-600">No user activity available</td>
+            </tr>
           )}
+        </tbody>
+      </table>
+    </div>
+  </div>
+)}
+
         </div>
       </div>
     </div>
