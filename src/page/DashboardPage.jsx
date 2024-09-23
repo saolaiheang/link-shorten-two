@@ -4,24 +4,35 @@ import Sidebar from "../components/Sidebar";
 import Header from "../components/Header";
 
 function DashboardPage() {
-  const [activeTab, setActiveTab] = useState("Cities");
-  const [citiesData, setCitiesData] = useState([]);
   const [isLoggedIn, setIsLoggedIn] = useState(true);
+  const [linksData, setLinksData] = useState([]); // State to store fetched links
 
-  // Function to fetch data from the API
-  const getCitiesData = async () => {
+  // Fetch shortened URLs and click counts from the API with token
+  const getLinksData = async () => {
+    const token = localStorage.getItem('token'); // Retrieve the token from localStorage
+
     try {
-      const response = await fetch("https://example.com/api/cities"); // Replace with your actual API URL
-      const data = await response.json();
-      setCitiesData(data); // Assuming the response is an array of cities
+      const response = await fetch("https://link-shorten-two.vercel.app/api/link_all", {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${token}`, // Add the token to the Authorization header
+          'Content-Type': 'application/json',
+        },
+      });
+      
+      const result = await response.json();
+      
+      if (result.code === 200) {
+        setLinksData(result.links); // Assuming links is an array of objects with short_url and click_count
+      }
     } catch (error) {
-      console.error("Error fetching cities data:", error);
+      console.error("Error fetching links data:", error);
     }
   };
 
-  // Use useEffect to fetch data when the component mounts
+  // Fetch data when the component mounts
   useEffect(() => {
-    getCitiesData();
+    getLinksData();
   }, []);
 
   return (
@@ -54,15 +65,20 @@ function DashboardPage() {
                 </tr>
               </thead>
               <tbody>
-                {Array.from({ length: 5 }).map((_, index) => (
+                {linksData.map((link, index) => (
                   <tr key={index} className="border-2 text-center">
                     <td className="p-4">
                       <button className="bg-blue-500 text-white py-1 px-3 lg:px-7 rounded-lg hover:bg-blue-600">
                         View
                       </button>
                     </td>
-                    <td className="p-4">https://bit.ly/3Xb7hRy</td>
-                    <td className="p-4">2</td>
+                    <td className="p-4">
+                      <a href={`https://link-shorten-two.vercel.app/api/short/${link.short_url}`} target="_blank" rel="noopener noreferrer">
+                      https://link-shorten-two.vercel.app/api/short/{link.short_url}
+                      </a>
+                     
+                    </td>
+                    <td className="p-4">{link.click_count}</td>
                     <td className="p-4 flex items-center justify-center gap-2">
                       <button className="bg-gray-200 text-gray-700 py-1 px-2 lg:px-3 rounded-lg hover:bg-gray-300 flex items-center gap-1">
                         <FaCopy /> Copy
@@ -74,52 +90,6 @@ function DashboardPage() {
                         <FaTrash className="text-gray-600" />
                       </button>
                     </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-
-          <div className="w-full lg:w-10/12 m-auto mt-12 border-2 border-slate-600 rounded-lg overflow-hidden">
-            <h2 className="font-bold text-lg mb-4 text-left pt-2 px-12">
-              Click + scan by Geographic data
-            </h2>
-
-            {/* Tabs */}
-            <div className="flex mb-4 w-11/12 m-auto border border-slate-400 rounded-full overflow-hidden">
-              <button
-                className={`flex-1 py-2 transition-colors text-center text-2xl ${activeTab === "Countries"
-                    ? "bg-gray-100 text-gray-700 rounded-full border border-gray-300"
-                    : "bg-white text-black"
-                  }`}
-                onClick={() => setActiveTab("Countries")}
-              >
-                Countries
-              </button>
-              <button
-                className={`flex-1 py-2 transition-colors text-center text-2xl ${activeTab === "Cities"
-                    ? "bg-gray-100 text-gray-700 rounded-full border border-gray-300"
-                    : "bg-white text-black"
-                  }`}
-                onClick={() => setActiveTab("Cities")}
-              >
-                Cities
-              </button>
-            </div>
-            <table className="w-full lg:w-11/12 m-auto text-sm lg:text-base">
-              <thead>
-                <tr className="text-center text-base lg:text-xl text-gray-500">
-                  <th className="py-2 font-normal">#</th>
-                  <th className="py-2 font-normal">City</th>
-                  <th className="py-2 font-normal">Clicks+scans</th>
-                </tr>
-              </thead>
-              <tbody>
-                {citiesData.map((city, index) => (
-                  <tr key={index}>
-                    <td className="py-1 font-semibold">{index + 1}</td>
-                    <td className="py-1">{city.name}</td>
-                    <td className="py-1">{city.clicks}</td>
                   </tr>
                 ))}
               </tbody>
