@@ -78,21 +78,25 @@ function AdminReport() {
         <div className="flex-1 p-4 overflow-x-auto">
           {/* Date Filter */}
           <div className="w-full lg:w-10/12 m-auto mt-6 flex flex-col lg:flex-row justify-between gap-4">
-            <div className="flex items-center gap-4">
-              <label>Start Date:</label>
+            <div className="flex max-sm:flex-col max-sm:items-start max-sm:mb-2  items-center gap-4">
+              <div className="flex">
+              <label className="pr-2 py-2">Start Date:</label>
               <input
                 type="date"
                 value={startDate}
                 onChange={(e) => setStartDate(e.target.value)}
                 className="border border-gray-300 p-2 rounded"
               />
-              <label>End Date:</label>
+              </div>
+              <div className="flex">
+              <label className="pr-2 py-2">End Date:</label>
               <input
                 type="date"
                 value={endDate}
                 onChange={(e) => setEndDate(e.target.value)}
                 className="border border-gray-300 p-2 rounded"
               />
+              </div>
               <button
                 onClick={getTotal}
                 className={`bg-blue-500 text-white p-2 rounded ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
