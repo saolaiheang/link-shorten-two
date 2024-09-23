@@ -83,6 +83,7 @@ npm run test
 
 ### Styling Guidelines
 
+
 **Tailwind CSS is used for all styling, ensuring quick and responsive design.**
 **Custom classes can be added for specific elements requiring unique designs.**
 
