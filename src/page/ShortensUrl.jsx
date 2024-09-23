@@ -163,7 +163,7 @@ function ShortenUrl() {
             />
             <div className="flex w-full">
                 <Sidebar />
-                <div className="w-[90%] md:w-[90%] lg:w-[60%] mx-auto h-auto">
+                <div className="w-[90%] md:w-[95%] lg:w-[80%] mx-auto h-auto overflow-hidden">
                     <div className="w-[93%] max-sm:w-[90%] max-sm:items-center h-10 mx-[4%] max-sm:mx-[4%] mt-10">
                         <div className="flex gap-4 w-[100%] h-10">
                             <input
