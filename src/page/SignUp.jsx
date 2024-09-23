@@ -14,7 +14,7 @@ function SignUp() {
     email: "",
     password: "",
   });
-  const [showSuccess, setShowSuccess] = useState(false); 
+  const [showSuccess, setShowSuccess] = useState(false);
   const validateForm = () => {
     let formIsValid = true;
     let newErrors = { username: "", email: "", password: "" };
@@ -50,7 +50,7 @@ function SignUp() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const token = localStorage.getItem('token');
-  
+
     if (validateForm()) {
       try {
         const response = await fetch(
@@ -64,20 +64,20 @@ function SignUp() {
             body: JSON.stringify(formData),
           }
         );
-  
+
         const data = await response.json();
-        
+
         if (response.ok) {
           console.log("Form submitted successfully", data);
           const { token, userId } = data; // assuming the response contains userId
           localStorage.setItem("token", token);
           localStorage.setItem("userId", userId); // store userId in localStorage
-  
+
           setShowSuccess(true);
           setTimeout(() => {
             setShowSuccess(false);
             navigate("/shortenurls");
-          }, 2000); 
+          }, 2000);
         } else {
           console.log("Error:", data.message);
         }
@@ -92,11 +92,11 @@ function SignUp() {
       });
     }
   };
-  
+
 
   return (
     <div>
-      <Header showLoginSignup={true}/>
+      <Header showLoginSignup={true} />
       <div>
         <h1 className="text-4xl sm:text-5xl md:text-6xl mt-10 sm:mt-12 md:mt-14">
           Create Account
@@ -155,7 +155,7 @@ function SignUp() {
             Sign up
           </button>
         </form>
-        {showSuccess && <SuccessMessage message="Account created successfully!" />} 
+        {showSuccess && <SuccessMessage message="Account created successfully!" />}
       </div>
     </div>
   );

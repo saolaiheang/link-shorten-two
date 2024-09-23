@@ -1,20 +1,15 @@
 
 import React, { useState, useEffect } from 'react';
 async function fetchExpirationDate(shortUrl) {
-    console.log(shortUrl);
     const apiUrl = `${import.meta.env.VITE_API_URL}/shorten/${shortUrl}/expires`;
-    console.log('API URL:', apiUrl);
     try {
         const response = await fetch(apiUrl);
 
         if (!response.ok) {
             throw new Error('Failed to fetch expiration date');
         }
-
         const data = await response.json();
-        console.log(data);
         return data.expires_at;
-
     } catch (error) {
         console.error('Error:', error);
         return null;
@@ -30,7 +25,6 @@ function formatDateToDDMMYYYY(dateString) {
 
 function ExpirationDate({ shortUrl }) {
     const [expirationDate, setExpirationDate] = useState('');
-    console.log(shortUrl);
     useEffect(() => {
         if (shortUrl) {
             const getExpirationDate = async () => {

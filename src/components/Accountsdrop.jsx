@@ -64,7 +64,7 @@ function AccountDropdown({ profilePicUrl, onLogout }) {
           alt="Profile"
         />
         <span className="text-white text-lg uppercase sm:text-2xl ml-2">
-          {loading ? 'Loading...' : userData?.username || 'User'} 
+          {loading ? 'Loading...' : userData?.username || 'User'}
         </span>
       </button>
 
