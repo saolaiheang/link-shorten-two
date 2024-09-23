@@ -14,29 +14,28 @@ function AdminReport() {
   const [topLinks, setTopLinks] = useState([]);
   const [userActivity, setUserActivity] = useState([]);
   const [totalUserConversions, setTotalUserConversions] = useState(0);
-  const [loading, setLoading] = useState(false); 
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-
   const getTotal = async () => {
-    const token = localStorage.getItem('token'); 
+    const token = localStorage.getItem('token');
 
     if (!token) {
       console.error('User is not authenticated');
       return;
     }
 
-    setLoading(true); 
+    setLoading(true);
 
     try {
       const response = await axios.post(
-        'https://link-shorten-two.vercel.app/api/admin/report', 
+        'https://link-shorten-two.vercel.app/api/admin/report',
         {
           startDate: startDate,
           endDate: endDate
         },
         {
           headers: {
-            Authorization: `Bearer ${token}` 
+            Authorization: `Bearer ${token}`
           }
         }
       );
@@ -50,7 +49,7 @@ function AdminReport() {
       // Calculate total conversions from user_activity
       const totalConversionsFromUsers = report.user_activity.reduce((sum, user) => sum + parseInt(user.conversions, 10), 0);
       setTotalUserConversions(totalConversionsFromUsers);
-      
+
     } catch (error) {
       console.error('Error fetching report data:', error);
     } finally {
@@ -80,22 +79,22 @@ function AdminReport() {
           <div className="w-full lg:w-10/12 m-auto mt-6 flex flex-col lg:flex-row justify-between gap-4">
             <div className="flex max-sm:flex-col max-sm:items-start max-sm:mb-2  items-center gap-4">
               <div className="flex">
-              <label className="pr-2 py-2">Start Date:</label>
-              <input
-                type="date"
-                value={startDate}
-                onChange={(e) => setStartDate(e.target.value)}
-                className="border border-gray-300 p-2 rounded"
-              />
+                <label className="pr-2 py-2">Start Date:</label>
+                <input
+                  type="date"
+                  value={startDate}
+                  onChange={(e) => setStartDate(e.target.value)}
+                  className="border border-gray-300 p-2 rounded"
+                />
               </div>
               <div className="flex">
-              <label className="pr-2 py-2">End Date:</label>
-              <input
-                type="date"
-                value={endDate}
-                onChange={(e) => setEndDate(e.target.value)}
-                className="border border-gray-300 p-2 rounded"
-              />
+                <label className="pr-2 py-2">End Date:</label>
+                <input
+                  type="date"
+                  value={endDate}
+                  onChange={(e) => setEndDate(e.target.value)}
+                  className="border border-gray-300 p-2 rounded"
+                />
               </div>
               <button
                 onClick={getTotal}
@@ -152,37 +151,37 @@ function AdminReport() {
             </div>
           )}
 
-{!loading && (
-  <div className="w-full lg:w-10/12 m-auto mt-6">
-    <h3 className="text-left text-xl font-bold">User Activity Breakdown</h3>
-    <div className="border border-black rounded-lg overflow-hidden mt-4">
-      <table className="min-w-full">
-        <thead className="bg-gray-100 border-b  border-black">
-          <tr>
-            <th className="px-4 py-2 text-center text-black">Username</th>
-            <th className="px-4 py-2 text-center text-black">Total Shortened</th>
-            <th className="px-4 py-2 text-center text-black">Total Clicks</th>
-          </tr>
-        </thead>
-        <tbody>
-          {userActivity.length > 0 ? (
-            userActivity.map((user, index) => (
-              <tr key={index} className="border-b">
-                <td className="px-4 py-2 text-gray-600">{user.username}</td>
-                <td className="px-4 py-2 text-gray-600">{user.conversions}</td>
-                <td className="px-4 py-2 text-gray-600">{user.total_clicks}</td>
-              </tr>
-            ))
-          ) : (
-            <tr>
-              <td colSpan="3" className="px-4 py-2 text-center text-gray-600">No user activity available</td>
-            </tr>
+          {!loading && (
+            <div className="w-full lg:w-10/12 m-auto mt-6">
+              <h3 className="text-left text-xl font-bold">User Activity Breakdown</h3>
+              <div className="border border-black rounded-lg overflow-hidden mt-4">
+                <table className="min-w-full">
+                  <thead className="bg-gray-100 border-b  border-black">
+                    <tr>
+                      <th className="px-4 py-2 text-center text-black">Username</th>
+                      <th className="px-4 py-2 text-center text-black">Total Shortened</th>
+                      <th className="px-4 py-2 text-center text-black">Total Clicks</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {userActivity.length > 0 ? (
+                      userActivity.map((user, index) => (
+                        <tr key={index} className="border-b">
+                          <td className="px-4 py-2 text-gray-600">{user.username}</td>
+                          <td className="px-4 py-2 text-gray-600">{user.conversions}</td>
+                          <td className="px-4 py-2 text-gray-600">{user.total_clicks}</td>
+                        </tr>
+                      ))
+                    ) : (
+                      <tr>
+                        <td colSpan="3" className="px-4 py-2 text-center text-gray-600">No user activity available</td>
+                      </tr>
+                    )}
+                  </tbody>
+                </table>
+              </div>
+            </div>
           )}
-        </tbody>
-      </table>
-    </div>
-  </div>
-)}
 
         </div>
       </div>

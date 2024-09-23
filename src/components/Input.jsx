@@ -20,16 +20,8 @@ async function shortenUrlWithBikay(longUrl) {
     if (!response.ok) {
       throw new Error('Failed to shorten URL');
     }
-
     const data = await response.json();
-    console.log(data)
-
-
-
     return data.shortened_link;
-
-
-
   } catch (error) {
     console.error('Error:', error);
     return null;
@@ -39,12 +31,10 @@ async function shortenUrlWithBikay(longUrl) {
 function handleEdit(setLongUrl, setShortUrl) {
   setShortUrl('');
 }
-
 function handleDelete(setLongUrl, setShortUrl) {
   setLongUrl('');
   setShortUrl('');
 }
-
 function UrlShortener() {
   const [longUrl, setLongUrl] = useState('');
   const [shortUrl, setShortUrl] = useState('');
@@ -52,7 +42,6 @@ function UrlShortener() {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
-
   const handleShorten = async () => {
     if (!longUrl || !longUrl.startsWith('http')) {
       setError('Please enter a valid URL');
@@ -62,8 +51,6 @@ function UrlShortener() {
     setLoading(true);
     setError('');
     const result = await shortenUrlWithBikay(longUrl);
-    console.log(result, "result")
-
     if (result) {
       const urlObj = new URL(result);
       const pathname = urlObj.pathname;

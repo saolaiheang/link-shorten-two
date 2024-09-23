@@ -148,7 +148,6 @@ function ShortenUrl() {
                 await navigator.clipboard.writeText(text);
                 setShowSuccessMessage(true);
                 setTimeout(() => setShowSuccessMessage(false), 5000);
-
                 // Track click count when the URL is copied
                 await trackClick(shortUrl.split('/').pop());
             } catch (error) {

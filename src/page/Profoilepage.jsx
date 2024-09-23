@@ -28,7 +28,7 @@ useEffect(() => {
           if (response.ok) {
             const data = await response.json();
             setUserData(data);
-            setLoading(false); // Set loading to false once data is fetched
+            setLoading(false);
           } else {
             console.error('Failed to fetch user data');
             setLoading(false);
@@ -40,7 +40,7 @@ useEffect(() => {
       }
     };
 
-    fetchUserData(); // Fetch user data immediately on mount
+    fetchUserData();
   }, []);
 
   const handleLogout = () => {
