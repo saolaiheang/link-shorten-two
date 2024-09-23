@@ -14,6 +14,25 @@ function saveLinksToLocalStorageByUserId(userId, links) {
     }
 }
 
+async function trackClick(shortUrl) {
+    const token = localStorage.getItem('token');
+    try {
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/count/${shortUrl}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+
+        });
+        if (!response.ok) {
+            throw new Error('Failed to track click.');
+        }
+    } catch (error) {
+        console.error('Error tracking click:', error);
+    }
+}
+
 async function fetchUserLinks() {
     const token = localStorage.getItem('token');
     try {
@@ -123,27 +142,30 @@ function ShortenUrl() {
         setLoading(false);
     };
 
-    function copyToClipboard(text) {
+    const copyToClipboard = async (text, shortUrl) => {
         if (navigator && navigator.clipboard) {
-            navigator.clipboard.writeText(text)
-                .then(() => {
-                    setShowSuccessMessage(true);
-                    setTimeout(() => setShowSuccessMessage(false), 5000);
-                })
-                .catch((error) => {
-                    console.error('Failed to copy:', error);
-                });
+            try {
+                await navigator.clipboard.writeText(text);
+                setShowSuccessMessage(true);
+                setTimeout(() => setShowSuccessMessage(false), 5000);
+
+                // Track click count when the URL is copied
+                await trackClick(shortUrl.split('/').pop());
+            } catch (error) {
+                console.error("Failed to copy:", error);
+            }
         } else {
-            alert('Clipboard functionality not supported.');
+            alert("Clipboard functionality not supported.");
         }
-    }
+    };
 
     useEffect(() => {
         const token = localStorage.getItem('token');
         if (!token) {
-            navigate('/login'); 
+            navigate('/login');
         }
     }, [navigate]);
+
 
     return (
         <>
@@ -153,10 +175,10 @@ function ShortenUrl() {
                 profilePicUrl="https://w7.pngwing.com/pngs/215/58/png-transparent-computer-icons-google-account-scalable-graphics-computer-file-my-account-icon-rim-123rf-symbol-thumbnail.png"
                 onLogout={() => {
                     setIsLoggedIn(false);
-                    localStorage.removeItem('token'); 
-                    localStorage.removeItem('userId'); 
+                    localStorage.removeItem('token');
+                    localStorage.removeItem('userId');
                     localStorage.removeItem('role');
-                    localStorage.removeItem(`shortenedLinks_${localStorage.getItem('userId')}`); 
+                    localStorage.removeItem(`shortenedLinks_${localStorage.getItem('userId')}`);
                     navigate('/');
                 }}
                 showLoginSignup={false}
@@ -188,7 +210,7 @@ function ShortenUrl() {
                                             </div>
                                             <div className="flex flex-col h-auto md:px-2 max-sm:items-center overflow-hidden">
                                                 <p className="text-sm sm:text-xs md:text-lg mt-2 md:mt-0 text-left max-sm:text-center overflow-hidden font-medium break-words">
-                                                    <a href={link.shortUrl} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
+                                                    <a href={link.shortUrl} onClick={() => handleUrlClick(link.shortUrl)} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
                                                         {link.shortUrl}
                                                     </a>
                                                 </p>
@@ -201,7 +223,7 @@ function ShortenUrl() {
                                             <div className="flex h-10 max-sm:h-6 max-sm:w-[5%] gap-2 max-sm:mt-3 max-sm:gap-1">
                                                 <button
                                                     className="px-3 py-2 bg-gray-300 flex justify-center items-center max-sm:px-1 max-sm:py-1 text-white rounded hover:bg-gray-400"
-                                                    onClick={() => copyToClipboard(link.shortUrl)}
+                                                    onClick={() => copyToClipboard(link.shortUrl, link.shortUrl)}
                                                 >
                                                     <FaCopy className="mr-1" />Link
                                                 </button>
@@ -218,7 +240,7 @@ function ShortenUrl() {
                                                     <FaTrash className="fill-black" />
                                                 </button>
                                             </div>
-                                            <ExpirationDates shortUrl={link.shortUrl.split('/').pop()}/>
+                                            <ExpirationDates shortUrl={link.shortUrl.split('/').pop()} />
                                         </div>
                                     </div>
                                 ))}
