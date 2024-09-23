@@ -163,3 +163,4 @@ Once the project is set up and running, you can navigate to various pages like l
 *Dashboard page*
 ![My Image](public/image%20copy%206.png)
 
+### Future Plan
