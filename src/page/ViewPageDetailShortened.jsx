@@ -6,6 +6,7 @@ import { QRCode } from "react-qrcode-logo";
 
 function ViewPageDetail() {
   const navigate = useNavigate();
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
   const { shortUrl } = useParams(); // Get shortUrl from URL params
   const [linkDetails, setLinkDetails] = useState(null); // State to hold link details
 
@@ -44,7 +45,21 @@ function ViewPageDetail() {
 
   return (
     <div className="min-h-screen ">
-      <Header />
+      <Header
+
+        isLoggedIn={isLoggedIn}
+        userName="Lai heang"
+        profilePicUrl="https://w7.pngwing.com/pngs/215/58/png-transparent-computer-icons-google-account-scalable-graphics-computer-file-my-account-icon-rim-123rf-symbol-thumbnail.png"
+        onLogout={() => {
+          setIsLoggedIn(false);
+          localStorage.removeItem("token");
+          localStorage.removeItem("userId");
+          localStorage.removeItem("role");
+          localStorage.removeItem(`shortenedLinks_${localStorage.getItem("userId")}`);
+          navigate("/");
+        }}
+        showLoginSignup={false}
+      />
       <div className="flex-grow bg-gray-100 flex w-full ">
         <Sidebar />
         <main className="flex-1 p-6 overflow-auto  ">
@@ -90,7 +105,7 @@ function ViewPageDetail() {
                     {linkDetails.originalUrl}
                   </a>
                 </div>
-                
+
                 <div className="flex justify-between border-b border-gray-300 pb-2">
                   <span className="font-medium">Expiry Date</span>
                   <span>{new Date(linkDetails.expiryDate).toLocaleDateString()}</span>
@@ -102,7 +117,7 @@ function ViewPageDetail() {
 
                 {/* QR Code */}
                 <div className="flex justify-center mt-6">
-                  <QRCode size={200} value={linkDetails.originalUrl}/>
+                  <QRCode size={200} value={linkDetails.originalUrl} />
                 </div>
               </div>
             ) : (
