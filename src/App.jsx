@@ -9,6 +9,7 @@ import './App.css'
 import Customaliasespage from './page/Customaliasespage';
 import AdminReport from './page/AdminReportpage';
 import Profilepage from './page/Profoilepage';
+import ViewPageDetail from './page/ViewPageDetailShortened';
 
 
 
@@ -24,6 +25,8 @@ function App() {
       <Route path="/customalaises" element={<Customaliasespage/>} />
       <Route path="/adminreport" element={<AdminReport/>} />
       <Route path="/profile" element={<Profilepage/>} />
+      <Route path="/view" element={<ViewPageDetail/>} />
+      <Route path="/back" element={<DashboardPage/>} />
     </Routes>
     </>
   )
