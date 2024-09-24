@@ -14,7 +14,6 @@ function AccountDropdown({ profilePicUrl, onLogout }) {
   };
 
   useEffect(() => {
-    // Fetch user data as soon as the component mounts
     const fetchUserData = async () => {
       const token = localStorage.getItem('token');
 

@@ -12,7 +12,7 @@ function ViewPageDetail() {
 
   // Function to handle back button click
   const handleBackClick = () => {
-    navigate("/dashboard"); // Change '/dashboard' to your actual dashboard route
+    navigate("/dashboard");
   };
 
   // Fetch link details based on shortUrl
