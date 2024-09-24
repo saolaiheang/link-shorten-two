@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Header from "../components/Header";
 import SuccessMessage from "../components/Successalert";
 function SignUp() {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     username: "",
     email: "",
@@ -13,8 +14,7 @@ function SignUp() {
     email: "",
     password: "",
   });
-  const [showSuccess, setShowSuccess] = useState(false); // State to manage success message visibility
-  const navigate = useNavigate();
+  const [showSuccess, setShowSuccess] = useState(false);
   const validateForm = () => {
     let formIsValid = true;
     let newErrors = { username: "", email: "", password: "" };
@@ -66,17 +66,18 @@ function SignUp() {
         );
 
         const data = await response.json();
-     
+
         if (response.ok) {
           console.log("Form submitted successfully", data);
-          const { token } = data;
+          const { token, userId } = data; // assuming the response contains userId
           localStorage.setItem("token", token);
-  
-          setShowSuccess(true); // Show success message
+          localStorage.setItem("userId", userId); // store userId in localStorage
+
+          setShowSuccess(true);
           setTimeout(() => {
             setShowSuccess(false);
             navigate("/shortenurls");
-          }, 2000); // Hide message after 2 seconds and navigate
+          }, 2000);
         } else {
           console.log("Error:", data.message);
         }
@@ -92,9 +93,10 @@ function SignUp() {
     }
   };
 
+
   return (
     <div>
-      <Header showLoginSignup={true}/>
+      <Header showLoginSignup={true} />
       <div>
         <h1 className="text-4xl sm:text-5xl md:text-6xl mt-10 sm:mt-12 md:mt-14">
           Create Account
@@ -153,7 +155,7 @@ function SignUp() {
             Sign up
           </button>
         </form>
-        {showSuccess && <SuccessMessage message="Account created successfully!" />} {/* Render success message */}
+        {showSuccess && <SuccessMessage message="Account created successfully!" />}
       </div>
     </div>
   );

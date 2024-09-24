@@ -1,10 +1,57 @@
-import React, { useState } from 'react';
 
-function AccountDropdown({ userName, profilePicUrl, onLogout }) {
+
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+
+function AccountDropdown({ profilePicUrl, onLogout }) {
   const [isOpen, setIsOpen] = useState(false);
+  const [userData, setUserData] = useState(null);
+  const [loading, setLoading] = useState(true); // To handle loading state
+  const navigate = useNavigate();
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
+  };
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      const token = localStorage.getItem('token');
+
+      if (token) {
+        try {
+          const response = await fetch(`${import.meta.env.VITE_API_URL}/profile`, {
+            method: 'GET',
+            headers: {
+              'Authorization': `Bearer ${token}`,
+              'Content-Type': 'application/json',
+            },
+          });
+
+          if (response.ok) {
+            const data = await response.json();
+            setUserData(data);
+            setLoading(false); // Set loading to false once data is fetched
+          } else {
+            console.error('Failed to fetch user data');
+            setLoading(false);
+          }
+        } catch (error) {
+          console.error('Error fetching user data:', error);
+          setLoading(false);
+        }
+      }
+    };
+
+    fetchUserData(); // Fetch user data immediately on mount
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('userId');
+
+    if (onLogout) onLogout();
+
+    navigate('/');
   };
 
   return (
@@ -15,18 +62,20 @@ function AccountDropdown({ userName, profilePicUrl, onLogout }) {
           src={profilePicUrl}
           alt="Profile"
         />
-        <span className="text-white text-lg sm:text-2xl ml-2">{userName}</span>
+        <span className="text-white text-lg uppercase sm:text-2xl ml-2">
+          {loading ? 'Loading...' : userData?.username || 'User'}
+        </span>
       </button>
 
       {isOpen && (
-        <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-20">
-          <div className="px-4 py-2 w-full text-sm text-gray-700">
-            <p>{userName}</p>
-            <p>Email: example@example.com</p> {/* Add any additional info here */}
+        <div className="absolute right-0 mt-2 w-60 bg-white rounded-md shadow-lg z-20">
+          <div className="px-4 py-8 w-full text-lg text-black">
+            <p>{userData?.username || 'User'}</p>
+            <p>{userData?.email || 'No email available'}</p>
           </div>
           <button
-            onClick={onLogout}
-            className="block w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100"
+            onClick={handleLogout}
+            className="block w-full px-4 py-2 text-left text-lg bg-slate-300 text-gray-700 hover:bg-gray-300"
           >
             Logout
           </button>

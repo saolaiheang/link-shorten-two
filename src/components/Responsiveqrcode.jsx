@@ -102,7 +102,7 @@ const QRCodeComponent = ({ value, logoUrl, isLoggedIn }) => {
           </div>
         </div>
       )}
-            {showSuccessMessage && <SuccessMessage message="QR Code URL copied to clipboard!" />}
+      {showSuccessMessage && <SuccessMessage message="QR Code URL copied to clipboard!" />}
 
       {/* Styles for modal and buttons */}
       <style jsx>{`

@@ -1,19 +1,35 @@
-// src/components/Sidebar.js
-import { useState } from "react";
-import { FaLink, FaUserCircle } from 'react-icons/fa';
+
+import { useState, useEffect } from "react";
+import { FaLink, FaUserCircle, FaPencilAlt, FaHeadset } from 'react-icons/fa';
 import { MdDashboard } from 'react-icons/md';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
-import { FaPencilAlt } from "react-icons/fa";
+import { useNavigate, useLocation } from 'react-router-dom'; // Import useNavigate and useLocation
 
 const Sidebar = () => {
   const [open, setOpen] = useState(true);
-  const navigate = useNavigate(); // Initialize the navigate function
+  const [role, setRole] = useState(null); 
+  const navigate = useNavigate(); 
+  const location = useLocation(); 
 
+  // Fetch user role when component mounts
+  useEffect(() => {
+    const fetchUserRole = async () => {
+      const userRole = localStorage.getItem('role'); // Example: 'admin' or 'user'
+      setRole(userRole);
+    };
+    fetchUserRole();
+  }, []);
+
+  // List of common menus
   const Menus = [
     { title: "Shortens Links", icon: <FaLink size={35} />, gap: false, path: "/shortenurls" },
-    { title: "Dash Boards", icon: <MdDashboard size={35} />, gap: true, path: "/dashboard" },
     { title: "Profile Acc", icon: <FaUserCircle size={35} />, gap: true, path: "/profile" },
     { title: "Custom Aliases", icon: <FaPencilAlt size={35} />, gap: true, path: "/customalaises" },
+  ];
+
+  // List of admin-specific menus
+  const adminMenus = [
+    { title: "Admin Report", icon: <FaHeadset size={35} />, gap: true, path: "/adminreport" },
+    { title: "Dash Boards", icon: <MdDashboard size={35} />, gap: true, path: "/dashboard" },
   ];
 
   return (
@@ -34,10 +50,29 @@ const Sidebar = () => {
           <h1 className={`text-black origin-left font-medium text-xl duration-200 ${!open && "scale-0"}`}>BiKay</h1>
         </div>
         <ul className="pt-6">
+          {/* Common Menus */}
           {Menus.map((Menu, index) => (
             <li
               key={index}
-              className={`flex rounded-md p-4 cursor-pointer hover:bg-violet-200 text-black text-base items-center gap-x-4 ${Menu.gap ? "mt-9" : "mt-2"} ${index === 0 && "bg-light-white"}`}
+              className={`flex rounded-md p-4 cursor-pointer text-black text-base items-center gap-x-4 ${
+                Menu.gap ? "mt-9" : "mt-2"} 
+                ${location.pathname === Menu.path ? "bg-violet-200 text-black" : ""} 
+                `}
+              onClick={() => navigate(Menu.path)} // Navigate to the specified path
+            >
+              {Menu.icon}
+              <span className={`${!open && "hidden"} origin-left duration-200`}>{Menu.title}</span>
+            </li>
+          ))}
+
+          {/* Admin-specific Menus */}
+          {role === 'admin' && adminMenus.map((Menu, index) => (
+            <li
+              key={index}
+              className={`flex rounded-md p-4 cursor-pointer text-black text-base items-center gap-x-4 ${
+                Menu.gap ? "mt-9" : "mt-2"} 
+                ${location.pathname === Menu.path ? "bg-violet-200 text-black" : ""} 
+               `}
               onClick={() => navigate(Menu.path)} // Navigate to the specified path
             >
               {Menu.icon}
