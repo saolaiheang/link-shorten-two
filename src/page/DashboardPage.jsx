@@ -1,7 +1,6 @@
 
 import { useState, useEffect } from "react";
 import { FaCopy, FaEdit, FaTrash, FaArrowLeft, FaArrowRight } from "react-icons/fa";
-import { useNavigate } from "react-router-dom"; // Import useNavigate
 import Sidebar from "../components/Sidebar";
 import Header from "../components/Header";
 import { useNavigate } from "react-router-dom";
@@ -16,6 +15,7 @@ function DashboardPage() {
   const itemsPerPage = 10;
   const navigate = useNavigate(); // Use navigate for redirection
   const [showSuccessMessage, setShowSuccessMessage] = useState(false); // State for success message
+
   async function trackClick(shortUrl) {
     const token = localStorage.getItem('token');
     try {
@@ -83,9 +83,10 @@ function DashboardPage() {
         console.error("Failed to delete link");
       }
     } catch (error) {
-      console.error("Error deleting link:", error);
+      console.error("Error deleting link:",error);
     }
   };
+
   useEffect(() => {
     getLinksData(currentPage);
   }, [currentPage]);
@@ -146,7 +147,7 @@ function DashboardPage() {
               <thead>
                 <tr className="bg-gray-200 text-center text-base lg:text-xl">
                   <th className="p-4 border font-normal">Action</th>
-                  <th className="p-4 border font-normal">Shortened Links</th>
+                  <th className="p-4 border font-normal">Shortens Links</th>
                   <th className="p-4 border font-normal">Click count</th>
                   <th className="p-4 border font-normal">Status</th>
                 </tr>
@@ -156,7 +157,9 @@ function DashboardPage() {
                   linksData.map((link, index) => (
                     <tr key={index} className="border-2 text-center">
                       <td className="p-4">
-                        <button className="bg-blue-500 text-white py-1 px-3 lg:px-7 rounded-lg hover:bg-blue-600">
+                        <button
+                        onClick={()=>navigate(`/view/${link.short_url}`)}
+                         className="bg-blue-500 text-white py-1 px-3 lg:px-7 rounded-lg hover:bg-blue-600">
                           View
                         </button>
                       </td>
@@ -193,32 +196,6 @@ function DashboardPage() {
                   <tr>
                     <td colSpan="4" className="p-4 text-center">
                       Loading....
-                {linksData.map((link, index) => (
-                  <tr key={index} className="border-2 text-center">
-                    <td className="p-4">
-                      <button
-                        className="bg-blue-500 text-white py-1 px-3 lg:px-7 rounded-lg hover:bg-blue-600"
-                        onClick={() => navigate('/view')} // Navigate to view page
-                      >
-                        View
-                      </button>
-                    </td>
-                    <td className="p-4">
-                      <a href={`https://link-shorten-two.vercel.app/api/short/${link.short_url}`} target="_blank" rel="noopener noreferrer">
-                        https://link-shorten-two.vercel.app/api/short/{link.short_url}
-                      </a>
-                    </td>
-                    <td className="p-4">{link.click_count}</td>
-                    <td className="p-4 flex items-center justify-center gap-2">
-                      <button className="bg-gray-200 text-gray-700 py-1 px-2 lg:px-3 rounded-lg hover:bg-gray-300 flex items-center gap-1">
-                        <FaCopy /> Copy
-                      </button>
-                      <button className="bg-white border rounded p-2 hover:bg-gray-100 flex items-center">
-                        <FaEdit className="text-gray-600" />
-                      </button>
-                      <button className="bg-white border rounded p-2 hover:bg-gray-100 flex items-center">
-                        <FaTrash className="text-gray-600" />
-                      </button>
                     </td>
                   </tr>
                 )}
