@@ -141,11 +141,11 @@ function AdminReport() {
                     <div key={index} className="flex justify-between mb-4">
                       <span>Original URL: {link.original_url}</span>
                       <span>Short URL: {link.short_url}</span>
-                      <span>Total Clicks: {link.total_clicks}</span>
+                      <span>Total Clicks: {link.click_count}</span>
                     </div>
                   ))
                 ) : (
-                  <p>No top links available</p>
+                  <p>Need to set date first</p>
                 )}
               </div>
             </div>
@@ -174,7 +174,7 @@ function AdminReport() {
                       ))
                     ) : (
                       <tr>
-                        <td colSpan="3" className="px-4 py-2 text-center text-gray-600">No user activity available</td>
+                        <td colSpan="3" className="px-4 py-2 text-center text-gray-600">Need to set date first</td>
                       </tr>
                     )}
                   </tbody>
