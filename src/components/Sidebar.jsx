@@ -47,7 +47,7 @@ const Sidebar = () => {
             className={`rounded-full w-12 sm:w-14 ${open && "rotate-[360deg]"}`}
             alt="BiKay Logo"
           />
-          <h1 className={`text-black origin-left font-medium text-xl duration-200 ${!open && "scale-0"}`}>BiKay</h1>
+          <h1 className={`text-black origin-left font-medium text-[25px] duration-200 ${!open && "scale-0"}`}>PBSL</h1>
         </div>
         <ul className="pt-6">
           {/* Common Menus */}
