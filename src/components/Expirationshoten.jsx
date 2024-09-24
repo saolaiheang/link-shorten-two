@@ -1,8 +1,5 @@
 
-
 import React, { useState, useEffect } from 'react';
-
-// Fetch expiration date based on short URL
 async function fetchExpirationDateShort(shortUrl) {
     const apiUrl = `${import.meta.env.VITE_API_URL}/short/${shortUrl}/expires`;
     try {

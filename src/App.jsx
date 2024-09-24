@@ -25,7 +25,6 @@ function App() {
       <Route path="/customalaises" element={<Customaliasespage/>} />
       <Route path="/adminreport" element={<AdminReport/>} />
       <Route path="/profile" element={<Profilepage/>} />
-      {/* <Route path="/view" element={<ViewPageDetail/>} /> */}
       <Route path="/view/:shortUrl" element={<ViewPageDetail />} />
       <Route path="/back" element={<DashboardPage/>} />
     </Routes>
