@@ -164,3 +164,7 @@ Once the project is set up and running, you can navigate to various pages like l
 ![My Image](public/image%20copy%206.png)
 
 ### Future Plan
+- Domain name
+- Edit and deleted in page shortened  URL
+- Geographic data in dashboard
+- Oauth integration
