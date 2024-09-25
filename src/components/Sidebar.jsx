@@ -9,8 +9,6 @@ const Sidebar = () => {
   const [role, setRole] = useState(null); 
   const navigate = useNavigate(); 
   const location = useLocation(); 
-
-  // Fetch user role when component mounts
   useEffect(() => {
     const fetchUserRole = async () => {
       const userRole = localStorage.getItem('role'); // Example: 'admin' or 'user'
@@ -19,14 +17,14 @@ const Sidebar = () => {
     fetchUserRole();
   }, []);
 
-  // List of common menus
+
   const Menus = [
     { title: "Shortens Links", icon: <FaLink size={35} />, gap: false, path: "/shortenurls" },
     { title: "Profile Acc", icon: <FaUserCircle size={35} />, gap: true, path: "/profile" },
     { title: "Custom Aliases", icon: <FaPencilAlt size={35} />, gap: true, path: "/customalaises" },
   ];
 
-  // List of admin-specific menus
+ 
   const adminMenus = [
     { title: "Admin Report", icon: <FaHeadset size={35} />, gap: true, path: "/adminreport" },
     { title: "Dash Boards", icon: <MdDashboard size={35} />, gap: true, path: "/dashboard" },
@@ -47,10 +45,10 @@ const Sidebar = () => {
             className={`rounded-full w-12 sm:w-14 ${open && "rotate-[360deg]"}`}
             alt="BiKay Logo"
           />
-          <h1 className={`text-black origin-left font-medium text-xl duration-200 ${!open && "scale-0"}`}>BiKay</h1>
+          <h1 className={`text-black origin-left font-medium text-[25px] duration-200 ${!open && "scale-0"}`}>PBSL</h1>
         </div>
         <ul className="pt-6">
-          {/* Common Menus */}
+          
           {Menus.map((Menu, index) => (
             <li
               key={index}
@@ -65,7 +63,7 @@ const Sidebar = () => {
             </li>
           ))}
 
-          {/* Admin-specific Menus */}
+         
           {role === 'admin' && adminMenus.map((Menu, index) => (
             <li
               key={index}
