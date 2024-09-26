@@ -150,7 +150,7 @@ function SignUp() {
           </div>
           <button
             type="submit"
-            className="bg-blue-500 mt-4 hover:bg-blue-700 text-white py-2 px-4 sm:px-6 md:px-8 rounded focus:outline-none focus:shadow-outline"
+            className="bg-blue-500 hover:bg-blue-700 text-white py-2 px-6 sm:px-8 rounded text-lg sm:text-[24px] focus:outline-none focus:shadow-outline"
           >
             Sign up
           </button>
